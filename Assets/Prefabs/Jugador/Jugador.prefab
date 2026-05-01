@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8980587132925108353}
   m_Layer: 6
   m_Name: Jugador
-  m_TagString: Untagged
+  m_TagString: PlayerController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,11 +106,14 @@ MonoBehaviour:
   jumpForce: 7
   velocidad: 5
   velocidadMax: 6
+  vidas: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 7521796192436767149}
   groundCheckSize: {x: 1, y: 0.1}
+  vidasLeftText: {fileID: 0}
+  prefabJugador: {fileID: 5577141057515790457}
 --- !u!61 &1764294787675792968
 BoxCollider2D:
   m_ObjectHideFlags: 0

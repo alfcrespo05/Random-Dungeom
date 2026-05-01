@@ -22,6 +22,9 @@ public class SlimeController : MonoBehaviour
         if (jugador != null)
         {
             jugador.GetComponent<PlayerController>().Muerte();
+            GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+            manager.vidas -= 1;
+            manager.SpawnJugador();
         }
     }
 

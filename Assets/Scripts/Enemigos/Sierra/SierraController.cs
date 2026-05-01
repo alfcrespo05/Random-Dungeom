@@ -20,6 +20,9 @@ public class SierraController : MonoBehaviour
         if (jugador != null)
         {
             jugador.GetComponent<PlayerController>().Muerte();
+            GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+            manager.vidas -= 1;
+            manager.SpawnJugador();
         }
     }
     void OnDrawGizmos()
@@ -34,4 +37,5 @@ public class SierraController : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    
 }

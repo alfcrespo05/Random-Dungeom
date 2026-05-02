@@ -348,10 +348,6 @@ PrefabInstance:
       propertyPath: groundCheckSize.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2355171251474542529, guid: b558d602cb069164299d2936b2245922, type: 3}
-      propertyPath: playerLayer.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 2966015059090862667, guid: b558d602cb069164299d2936b2245922, type: 3}
       propertyPath: m_Name
       value: Bloque (1)
@@ -1789,7 +1785,7 @@ PrefabInstance:
       objectReference: {fileID: 1615648637}
     - target: {fileID: 2586634199555222066, guid: d55988d0179380a42ae71784a0d13bdb, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6887564911653021877, guid: d55988d0179380a42ae71784a0d13bdb, type: 3}
       propertyPath: m_Name
@@ -1982,7 +1978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3156200879930648622, guid: f9b67206d9a51584784691bcdead636f, type: 3}
       propertyPath: playerLayer.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 7551589020618167254, guid: f9b67206d9a51584784691bcdead636f, type: 3}
       propertyPath: m_Name

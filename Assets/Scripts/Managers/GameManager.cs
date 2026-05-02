@@ -9,14 +9,15 @@ public class GameManager : MonoBehaviour
     public TMP_Text estaminaLeftText;
 
     [SerializeField] private GameObject prefabJugador;
+
     void Start()
     {
         vidasLeftText.text = $"<3 <3 <3";
-        SpawnJugador();
         EstaminaRestante();
         estamina = UnityEngine.Random.Range(15, 101);
+        SpawnJugador(); // spawna el jugador al inicio
     }
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -54,7 +55,8 @@ public class GameManager : MonoBehaviour
     {
         if (vidas != 0)
         {
-            Instantiate(prefabJugador, new Vector3(-7.5f, -2.86f, 0), Quaternion.Euler(0, 0, 0));
+            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.5f, -2.86f, 0), Quaternion.identity);
+           
         }
         else GameOver();
     }

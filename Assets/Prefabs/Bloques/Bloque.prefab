@@ -104,13 +104,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
   materialHielo: {fileID: 6200000, guid: 84fea4a734f7fe14b885bf70f2063ffe, type: 2}
-  colorNormal: {r: 1, g: 1, b: 1, a: 1}
+  materialPiedra: {fileID: 6200000, guid: 94e3b1c281f3818408f7fe56b5b829df, type: 2}
+  colorNormal: {r: 0.8196079, g: 0.8196079, b: 0.8196079, a: 1}
   colorHielo: {r: 0.5, g: 0.8, b: 1, a: 1}
-  groundCheck: {fileID: 0}
-  groundCheckSize: {x: 0.9, y: 0.1}
+  colorPiedra: {r: 0.30980393, g: 0.27058825, b: 0.24313727, a: 1}
+  spritePinchos: {fileID: 0}
+  pinchosCheckSize: {x: 6, y: 0.2}
+  pinchosCheck: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  esHorizontal: 1
+  tiempoDestruccion: 2
+  objetivoLayer:
+    serializedVersion: 2
+    m_Bits: 192
 --- !u!61 &5215704831637972476
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -136,6 +136,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadPatrulla: 2
   distanciaBloque: 2.7
+  bordeIzquierdo: {fileID: 0}
+  bordeDerecho: {fileID: 0}
+  sueloLayer:
+    serializedVersion: 2
+    m_Bits: 8
   velocidadPersecucion: 3
   rangoDeteccion: {x: 6, y: 1}
   hitCheckSize: {x: 0.6, y: 0.2}
@@ -143,6 +148,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  hitCheckLateralSize: {x: 1, y: 0.8}
 --- !u!58 &1169142938437074114
 CircleCollider2D:
   m_ObjectHideFlags: 0

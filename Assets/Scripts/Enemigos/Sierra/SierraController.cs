@@ -21,7 +21,7 @@ public class SierraController : MonoBehaviour
         {
             jugador.GetComponent<PlayerController>().Muerte();
             GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-            manager.vidas -= 1;
+            manager.vidas -= 2;
             manager.SpawnJugador();
         }
     }

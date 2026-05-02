@@ -1692,7 +1692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ffa5d9f40f82a4c85c0f05e9df46e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidas: 3
+  vidas: 6
   estamina: 0
   vidasLeftText: {fileID: 48878337}
   estaminaLeftText: {fileID: 802956395}
@@ -1741,11 +1741,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1125400793383703396, guid: d55988d0179380a42ae71784a0d13bdb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.75
+      value: -3.07
       objectReference: {fileID: 0}
     - target: {fileID: 1125400793383703396, guid: d55988d0179380a42ae71784a0d13bdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.89
+      value: -0.72
       objectReference: {fileID: 0}
     - target: {fileID: 1125400793383703396, guid: d55988d0179380a42ae71784a0d13bdb, type: 3}
       propertyPath: m_LocalPosition.z

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] public int vidas = 3;
+    [SerializeField] public int vidas = 6;
     [SerializeField] public int estamina = 0;
     public TMP_Text vidasLeftText;
     public TMP_Text estaminaLeftText;
@@ -34,17 +34,29 @@ public class GameManager : MonoBehaviour
     }
     public void ContarVidas()
     {
-        if (vidas == 3)
+        if (vidas == 6)
         {
             vidasLeftText.text = $"<3 <3 <3";
         }
-        if (vidas == 2)
+        if (vidas == 5)
+        {
+            vidasLeftText.text = $"<3 <3 <";
+        }
+        if (vidas == 4)
         {
             vidasLeftText.text = $"<3 <3";
         }
-        if (vidas == 1)
+        if (vidas == 3)
+        {
+            vidasLeftText.text = $"<3 <";
+        }
+        if (vidas == 2)
         {
             vidasLeftText.text = $"<3";
+        }
+        if (vidas == 1)
+        {
+            vidasLeftText.text = $"<";
         }
         if (vidas == 0)
         {

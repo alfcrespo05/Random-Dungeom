@@ -134,10 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17f9b22f93d7dd94e9f1aea6c1f1ae9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocidadPatrulla: 2
+  distanciaBloque: 2.7
+  velocidadPersecucion: 3
+  rangoDeteccion: {x: 6, y: 1}
   hitCheckSize: {x: 0.6, y: 0.2}
-  hitCheckRadius: 0.5
   hitCheck: {fileID: 1471728149921802379}
-  hitCheck2: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64

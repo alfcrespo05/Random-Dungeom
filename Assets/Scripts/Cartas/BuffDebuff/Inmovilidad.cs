@@ -49,9 +49,6 @@ public class Inmovilidad : MonoBehaviour
                 {
                     GameManager.Instance.estamina -= costeEstamina;
 
-                    if (sic != null) sic.InmovilidadBuff();
-                    if (slc != null) slc.InmovilidadBuff();
-
                     // Afecta a todos los slimes de la escena
                     SlimeController[] slimes = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
                     foreach (SlimeController sl in slimes)

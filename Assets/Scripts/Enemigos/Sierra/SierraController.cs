@@ -3,6 +3,7 @@ using UnityEngine;
 public class SierraController : MonoBehaviour
 {
     [SerializeField] private float hitCheckRadius = 0.2f;
+    [SerializeField] private int Daño = 2;
     [SerializeField] private Transform hitCheck;
     [SerializeField] private LayerMask playerLayer;
     private SpriteRenderer sr;
@@ -20,6 +21,13 @@ public class SierraController : MonoBehaviour
     private Vector3 puntoOrigen; // centro del bloque donde nació
     private float direccion = 1f;
 
+    [Header("Inmovil")]
+    [SerializeField] private float empuje = 10f;
+    [SerializeField] private float radioEmpuje = 1.5f;
+    private bool inmovilizado = false;
+
+
+
     private Collider2D col;
     private bool helado = false;
     private Rigidbody2D rb;
@@ -36,17 +44,29 @@ public class SierraController : MonoBehaviour
     void Update()
     {
         if (helado) return;
-
         if (patrullando)
             VelocidadBuff();
 
         Collider2D jugador = Physics2D.OverlapCircle(hitCheck.position, hitCheckRadius, playerLayer);
         if (jugador != null)
         {
-            jugador.GetComponent<PlayerController>().Muerte();
-            GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-            manager.vidas -= 2;
-            manager.SpawnJugador();
+            PlayerController pc = jugador.GetComponent<PlayerController>();
+            if (pc != null && !pc.esInvulnerable)
+            {
+                GameManager.Instance.vidas -= Daño;
+                pc.StartCoroutine(pc.Invulnerabilidad());
+
+                // Empuje solo si está inmovilizada
+                if (inmovilizado)
+                {
+                    Rigidbody2D rbJugador = jugador.GetComponent<Rigidbody2D>();
+                    if (rbJugador != null)
+                    {
+                        Vector2 dir = (jugador.transform.position - transform.position).normalized;
+                        rbJugador.AddForce(dir * empuje, ForceMode2D.Impulse);
+                    }
+                }
+            }
         }
     }
 
@@ -57,8 +77,14 @@ public class SierraController : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(hitCheck.position, hitCheckRadius);
         }
+
+        // Límites de patrulla
         Gizmos.DrawWireSphere(new Vector3(transform.position.x + distanciaBloque, transform.position.y, 0), 0.1f);
         Gizmos.DrawWireSphere(new Vector3(transform.position.x - distanciaBloque, transform.position.y, 0), 0.1f);
+
+        // Radio de empuje
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radioEmpuje);
     }
 
     public void CambiarAHielo()
@@ -90,7 +116,8 @@ public class SierraController : MonoBehaviour
     }
     public void InmovilidadBuff()
     {
-
+        Daño = 1;
+        inmovilizado = true;
     }
     public void Muerte()
     {

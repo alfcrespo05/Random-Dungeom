@@ -26,8 +26,8 @@ public class SlimeController : MonoBehaviour
     [Header("Aire")]
     [SerializeField] private Color colorAire = new Color(0.5f, 0.8f, 1f);
     [SerializeField] private Color colorNormal = new Color(0.83f, 0.99f, 0.27f);
-    //[SerializeField] private PhysicsMaterial2D materialNormal;
-    //[SerializeField] private PhysicsMaterial2D materialAire;
+    [SerializeField] private PhysicsMaterial2D materialNormal;
+    [SerializeField] private PhysicsMaterial2D materialAire;
 
     [Header("Modo Torreta")]
     [SerializeField] private GameObject prefabProyectil;
@@ -141,14 +141,14 @@ public class SlimeController : MonoBehaviour
         Collider2D jugadorLateral = Physics2D.OverlapBox(transform.position, tamañoActual, 0f, playerLayer);
         if (jugadorLateral != null)
         {
-            // Si está inmovilizado no necesita comprobar de dónde viene
             if (inmovilizado || jugadorLateral.transform.position.y < transform.position.y + 0.3f)
             {
                 PlayerController pc = jugadorLateral.GetComponent<PlayerController>();
-                if (pc != null) pc.Muerte();
-                GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-                manager.vidas -= 1;
-                manager.SpawnJugador();
+                if (pc != null && !pc.esInvulnerable) // comprueba primero
+                {
+                    GameManager.Instance.vidas -= 1; // luego resta vidas
+                    pc.StartCoroutine(pc.Invulnerabilidad());
+                }
             }
         }
     }
@@ -195,7 +195,7 @@ public class SlimeController : MonoBehaviour
     public void CambiarAAire()
     {
         aire = true;
-        //col.sharedMaterial = materialAire;
+        col.sharedMaterial = materialAire;
         sr.color = colorAire;
         rb.gravityScale = 0f;
         rb.linearVelocity = Vector2.zero;
@@ -227,11 +227,12 @@ public class SlimeController : MonoBehaviour
     public void CambiarANormal()
     {
         aire = false;
-        //col.sharedMaterial = materialNormal;
+        col.sharedMaterial = materialNormal;
         sr.color = colorNormal;
     }
     public void InmovilidadBuff()
     {
+        if (aire == true) { Destroy(gameObject); return; }
         // Para el movimiento
         inmovilizado = true;
         rb.gravityScale = 0f;

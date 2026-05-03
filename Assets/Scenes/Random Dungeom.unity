@@ -4049,7 +4049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2033996147}
   m_Layer: 0
-  m_Name: Moradas
+  m_Name: Polisemicas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4531,7 +4531,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2519294644162448031, guid: f9b67206d9a51584784691bcdead636f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.83837
+      value: 4.04
       objectReference: {fileID: 0}
     - target: {fileID: 2519294644162448031, guid: f9b67206d9a51584784691bcdead636f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4576,10 +4576,6 @@ PrefabInstance:
     - target: {fileID: 7551589020618167254, guid: f9b67206d9a51584784691bcdead636f, type: 3}
       propertyPath: m_Name
       value: Sierra
-      objectReference: {fileID: 0}
-    - target: {fileID: 7551589020618167254, guid: f9b67206d9a51584784691bcdead636f, type: 3}
-      propertyPath: m_Layer
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

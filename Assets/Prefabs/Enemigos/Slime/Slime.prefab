@@ -151,6 +151,8 @@ MonoBehaviour:
   hitCheckLateralSize: {x: 1, y: 0.8}
   colorAire: {r: 0.8745099, g: 0.9921569, b: 0.9960785, a: 1}
   colorNormal: {r: 0.50980395, g: 0.7843138, b: 0.27450982, a: 1}
+  materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
+  materialAire: {fileID: 6200000, guid: 5fbaa1f3efa004741ae8735ddb7012bf, type: 2}
   prefabProyectil: {fileID: 1650694412427601897, guid: beb6ae47184770d44a56c517963bf005, type: 3}
   intervaloDisparo: 2
   alturaElevacion: 1

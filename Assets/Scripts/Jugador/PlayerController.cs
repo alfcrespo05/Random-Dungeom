@@ -1,13 +1,17 @@
 using UnityEngine;
+using System.Collections;
+
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float velocidad = 5f;
     [SerializeField] private float velocidadMax = 8f;
+
     private bool dobleSalto = false;
     private int saltosRestantes = 0;
     private bool estabaEnSuelo = false;
+    public bool esInvulnerable = false;
 
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
@@ -78,9 +82,25 @@ public class PlayerController : MonoBehaviour
         dobleSalto = true;
 
     }
+    public IEnumerator Invulnerabilidad()
+    {
+        esInvulnerable = true;
+        float tiempo = 0f;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+
+        while (tiempo < 1f)
+        {
+            sr.enabled = !sr.enabled; // parpadeo
+            yield return new WaitForSeconds(0.15f);
+            tiempo += 0.15f;
+        }
+
+        sr.enabled = true;
+        esInvulnerable = false;
+    }
     public void Muerte()
     {
-       
         Destroy(gameObject);
     }
+   
 }

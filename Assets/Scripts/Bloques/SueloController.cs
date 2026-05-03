@@ -52,12 +52,11 @@ public class SueloController : MonoBehaviour
             if (objetivo != null)
             {
                 PlayerController pc = objetivo.GetComponent<PlayerController>();
-                if (pc != null) 
+                if (pc != null && !pc.esInvulnerable) 
                 {
-                    pc.Muerte();
+                    pc.StartCoroutine(pc.Invulnerabilidad());
                     GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
                     manager.vidas -= 2;
-                    manager.SpawnJugador();
                 }
                 SlimeController slime = objetivo.GetComponent<SlimeController>();
                 if (slime != null) slime.Muerte();

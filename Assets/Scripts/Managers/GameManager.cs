@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         ContarVidas();
-        
+        GameOver();
     }
     public void EstaminaRestante()
     {
@@ -90,7 +90,10 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-
+        if(vidas == 0)
+        {
+            muerteJugador();
+        }
     }
     public void ContarVidas()
     {
@@ -272,9 +275,14 @@ public class GameManager : MonoBehaviour
         if (vidas != 0)
         {
             GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.5f, -2.86f, 0), Quaternion.identity);
-           
+
         }
         else GameOver();
+    }
+    public void muerteJugador()
+    {
+        PlayerController pc = FindFirstObjectByType<PlayerController>();
+        pc.Muerte();
     }
     //PIEDRA
     public void AñadirPiedra()

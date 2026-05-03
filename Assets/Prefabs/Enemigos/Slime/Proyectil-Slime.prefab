@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 8
-  empuje: 5
+  empuje: 10
   radioEmpuje: 1.5
   playerLayer:
     serializedVersion: 2

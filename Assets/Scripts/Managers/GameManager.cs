@@ -55,15 +55,26 @@ public class GameManager : MonoBehaviour
     {
         EstaminaRestante();
 
-        // Busca todas las cartas en la escena
         Hielo[] cartasHielo = FindObjectsByType<Hielo>(FindObjectsSortMode.None);
         Piedra[] cartasPiedra = FindObjectsByType<Piedra>(FindObjectsSortMode.None);
+        Aire[] cartasAire = FindObjectsByType<Aire>(FindObjectsSortMode.None);
+        Velocidad[] cartasVelocidad = FindObjectsByType<Velocidad>(FindObjectsSortMode.None);
+        Inmovilidad[] cartasInmovilidad = FindObjectsByType<Inmovilidad>(FindObjectsSortMode.None);
+        DobleSalto[] cartasDobleSalto = FindObjectsByType<DobleSalto>(FindObjectsSortMode.None);
+
         bool puedePagarAlguna = false;
 
         foreach (Hielo carta in cartasHielo)
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
-
         foreach (Piedra carta in cartasPiedra)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (Aire carta in cartasAire)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (Velocidad carta in cartasVelocidad)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (Inmovilidad carta in cartasInmovilidad)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (DobleSalto carta in cartasDobleSalto)
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
 
         estaminaLeftText.color = puedePagarAlguna ? Color.white : Color.red;

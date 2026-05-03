@@ -18,6 +18,12 @@ public class SueloController : MonoBehaviour
     [SerializeField] private float tiempoDestruccion = 2f;
     [SerializeField] private LayerMask objetivoLayer;
 
+    [Header("Clase")]
+    public bool esTierra = false;
+    public bool esRoca = false;
+    public bool esMadera = false;
+
+
     private Collider2D col;
     private SpriteRenderer sr;
     private bool esPiedra = false;
@@ -93,6 +99,13 @@ public class SueloController : MonoBehaviour
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireCube(pinchosCheck.position, pinchosCheckSize);
         }
+    }
+    public bool EsMismoTipo(SueloController otro)
+    {
+        if (esTierra && otro.esTierra) return true;
+        if (esRoca && otro.esRoca) return true;
+        if (esMadera && otro.esMadera) return true;
+        return false;
     }
     public void CambiarANormal()
     {

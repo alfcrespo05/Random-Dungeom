@@ -23,6 +23,28 @@ public class SlimeController : MonoBehaviour
     [Header("Hit Check Lateral")]
     [SerializeField] private Vector2 hitCheckLateralSize = new Vector2(1f, 0.8f);
 
+    [Header("Aire")]
+    [SerializeField] private Color colorAire = new Color(0.5f, 0.8f, 1f);
+    [SerializeField] private Color colorNormal = new Color(0.83f, 0.99f, 0.27f);
+    //[SerializeField] private PhysicsMaterial2D materialNormal;
+    //[SerializeField] private PhysicsMaterial2D materialAire;
+
+    [Header("Modo Torreta")]
+    [SerializeField] private GameObject prefabProyectil;
+    [SerializeField] private float intervaloDisparo = 2f;
+    [SerializeField] private float alturaElevacion = 1.5f;
+    private float timerDisparo = 0f;
+
+    [Header("Charco")]
+    [SerializeField] private Vector2 tamañoCharco = new Vector2(2f, 0.3f);
+    [SerializeField] private Vector2 hitCheckLateralCharco = new Vector2(2f, 0.3f);
+    [SerializeField] private float alturaCharco = -0.5f;
+    [SerializeField] private PhysicsMaterial2D materialCharco;
+    private bool inmovilizado = false;
+
+    private Collider2D col;
+    private bool aire = false;
+    private SpriteRenderer sr;
 
     private Rigidbody2D rb;
     private Vector3 puntoOrigen; // centro del bloque donde nació
@@ -33,11 +55,24 @@ public class SlimeController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        puntoOrigen = transform.position; // guarda la posición inicial
+        col = GetComponent<Collider2D>(); 
+        sr = GetComponent<SpriteRenderer>(); 
+        puntoOrigen = transform.position;
     }
 
     void Update()
     {
+        if (inmovilizado)
+        {
+            ComprobarHitLateral(); // el charco sigue haciendo daño
+            return;
+        } 
+        if (aire)
+        {
+            ModoTorreta();
+            return;
+        }
+
         BuscarJugador();
 
         if (persiguiendo && jugador != null)
@@ -45,8 +80,8 @@ public class SlimeController : MonoBehaviour
         else
             Patrullar();
 
-        ComprobarHit();        // mata al slime si viene de arriba
-        ComprobarHitLateral(); // mata al jugador si lo toca por el lado
+        ComprobarHit();
+        ComprobarHitLateral();
     }
 
     void BuscarJugador()
@@ -102,11 +137,12 @@ public class SlimeController : MonoBehaviour
     }
     void ComprobarHitLateral()
     {
-        Collider2D jugadorLateral = Physics2D.OverlapBox(transform.position, hitCheckLateralSize, 0f, playerLayer);
+        Vector2 tamañoActual = inmovilizado ? hitCheckLateralCharco : hitCheckLateralSize;
+        Collider2D jugadorLateral = Physics2D.OverlapBox(transform.position, tamañoActual, 0f, playerLayer);
         if (jugadorLateral != null)
         {
-            // Comprueba que no viene de arriba
-            if (jugadorLateral.transform.position.y < transform.position.y + 0.3f)
+            // Si está inmovilizado no necesita comprobar de dónde viene
+            if (inmovilizado || jugadorLateral.transform.position.y < transform.position.y + 0.3f)
             {
                 PlayerController pc = jugadorLateral.GetComponent<PlayerController>();
                 if (pc != null) pc.Muerte();
@@ -117,18 +153,29 @@ public class SlimeController : MonoBehaviour
         }
     }
 
+
     void OnDrawGizmos()
     {
         // Rango de detección
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position, rangoDeteccion);
 
-        // Hit check
+        // Hit check arriba (mata al slime)
         if (hitCheck != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(hitCheck.position, hitCheckSize);
         }
+
+        // Hit check lateral (mata al jugador)
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireCube(transform.position, hitCheckLateralSize);
+
+        // Tamaño del charco
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(transform.position, hitCheckLateralCharco);
+
+        // Bordes para no caerse
         if (bordeIzquierdo != null)
         {
             Gizmos.color = Color.green;
@@ -144,6 +191,68 @@ public class SlimeController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(new Vector3(transform.position.x + distanciaBloque, transform.position.y, 0), 0.1f);
         Gizmos.DrawWireSphere(new Vector3(transform.position.x - distanciaBloque, transform.position.y, 0), 0.1f);
+    }
+    public void CambiarAAire()
+    {
+        aire = true;
+        //col.sharedMaterial = materialAire;
+        sr.color = colorAire;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic; // no puede ser empujado
+        transform.position += Vector3.up * alturaElevacion;
+    }
+    void ModoTorreta()
+    {
+        // Sigue comprobando si el jugador lo pisa
+        ComprobarHit();
+
+        timerDisparo += Time.deltaTime;
+        if (timerDisparo >= intervaloDisparo)
+        {
+            timerDisparo = 0f;
+            Disparar();
+        }
+    }
+
+    void Disparar()
+    {
+        PlayerController jugador = FindFirstObjectByType<PlayerController>();
+        if (jugador == null || prefabProyectil == null) return;
+
+        Vector2 dir = (jugador.transform.position - transform.position).normalized;
+        GameObject proyectil = Instantiate(prefabProyectil, transform.position, Quaternion.identity);
+        proyectil.GetComponent<Proyectil>().SetDireccion(dir);
+    }
+    public void CambiarANormal()
+    {
+        aire = false;
+        //col.sharedMaterial = materialNormal;
+        sr.color = colorNormal;
+    }
+    public void InmovilidadBuff()
+    {
+        // Para el movimiento
+        inmovilizado = true;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        transform.position += Vector3.up * alturaCharco;
+        col.sharedMaterial = materialCharco;
+
+        // Cambia el tamaño del sprite al del charco
+        transform.localScale = new Vector3(tamañoCharco.x, tamañoCharco.y, 1f);
+
+        // Desactiva el hitCheck de arriba (el que lo mata)
+        if (hitCheck != null)
+            hitCheck.gameObject.SetActive(false);
+
+        // Desactiva el collider original
+        col.enabled = false;
+
+        // Añade un BoxCollider2D con las dimensiones del charco
+        BoxCollider2D boxCol = gameObject.AddComponent<BoxCollider2D>();
+        boxCol.size = new Vector2(0.9f,0.5f);
     }
     public void Muerte()
     {

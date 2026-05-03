@@ -5,23 +5,36 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float velocidad = 5f;
     [SerializeField] private float velocidadMax = 8f;
+    private bool dobleSalto = false;
+    private int saltosRestantes = 0;
+    private bool estabaEnSuelo = false;
+
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.9f, 0.1f);
+
     private Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        dobleSalto = false;
     }
 
     void Update()
     {
         bool isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // Solo resetea cuando acaba de aterrizar
+        if (isGrounded && !estabaEnSuelo)
+            saltosRestantes = dobleSalto ? 2 : 1;
+
+        estabaEnSuelo = isGrounded;
+
+        if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            saltosRestantes--;
         }
 
         Movimiento();
@@ -48,7 +61,23 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
         }
     }
+    public void VelocidadBuff()
+    {
+        velocidad *= 1.25f;
+        velocidadMax *= 1.25f; // no olvides actualizar también la velocidad máxima
+    }
+    public void InmovilidadBuff()
+    {
+        GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        manager.vidas -= 2;
+    }
+    public void DobleSaltoBuff()
+    {
+        velocidad *= 0.75f;
+        velocidadMax *= 0.75f;
+        dobleSalto = true;
 
+    }
     public void Muerte()
     {
        

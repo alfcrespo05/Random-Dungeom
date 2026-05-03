@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class Piedra : MonoBehaviour
+public class Aire : MonoBehaviour
 {
     private bool arrastrando = false;
     private Camera cam;
-    private int sueloLayer;
-    [SerializeField] private LayerMask UILayer;
+    [SerializeField] private LayerMask fondoLayer;
+    [SerializeField] private LayerMask enemigoLayer;
     private Rigidbody2D rb;
     public int costeEstamina = 10;
     public Vector2 posicionOriginal;
     void Start()
     {
         cam = Camera.main;
-        sueloLayer = LayerMask.GetMask("Suelo");
         rb = GetComponent<Rigidbody2D>();
         posicionOriginal = transform.position; // se guarda sola
     }
@@ -37,34 +36,37 @@ public class Piedra : MonoBehaviour
     void OnMouseUp()
     {
         arrastrando = false;
-
         if (costeEstamina <= GameManager.Instance.estamina)
         {
-            Collider2D bloque = Physics2D.OverlapPoint(transform.position, sueloLayer);
-            if (bloque != null)
+            // Primero comprueba el slime
+            Collider2D slimeh = Physics2D.OverlapPoint(transform.position, enemigoLayer);
+            if (slimeh != null)
             {
-                SueloController suelo = bloque.GetComponent<SueloController>();
-                if (suelo != null)
+                SlimeController slime = slimeh.GetComponent<SlimeController>();
+                if (slime != null)
                 {
                     GameManager.Instance.estamina -= costeEstamina;
-                    suelo.CambiarAPiedra();
+                    slime.CambiarAAire();
                     Destroy(gameObject);
-                    return; // sale del método, no ejecuta el resto
+                    return;
                 }
             }
-            Collider2D corazones = Physics2D.OverlapPoint(transform.position, UILayer);
-            if (corazones != null)
+
+            // Luego comprueba el fondo
+            Collider2D fondo = Physics2D.OverlapPoint(transform.position, fondoLayer);
+            if (fondo != null)
             {
-                // No necesitas GetComponent<GameManager> en el objeto
-                // simplemente llama al Instance directamente
-                GameManager.Instance.estamina -= costeEstamina;
-                GameManager.Instance.AñadirPiedra();
-                Destroy(gameObject);
-                return;
+                FondoController fo = fondo.GetComponent<FondoController>();
+                if (fo != null)
+                {
+                    GameManager.Instance.estamina -= costeEstamina;
+                    fo.CambiarAAire();
+                    Destroy(gameObject);
+                    return;
+                }
             }
         }
 
-        // Si no se usó la carta por cualquier motivo, vuelve a la posición original
         transform.position = posicionOriginal;
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Dynamic;

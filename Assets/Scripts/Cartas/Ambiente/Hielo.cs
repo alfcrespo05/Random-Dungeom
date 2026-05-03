@@ -47,11 +47,20 @@ public class Hielo : MonoBehaviour
                 if (suelo != null)
                 {
                     GameManager.Instance.estamina -= costeEstamina;
-                    suelo.CambiarAHielo();
+
+                    // Aplica hielo a todos los bloques del mismo tipo
+                    SueloController[] todosLosBloques = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+                    foreach (SueloController b in todosLosBloques)
+                    {
+                        if (b.EsMismoTipo(suelo))
+                            b.CambiarAHielo();
+                    }
+
                     Destroy(gameObject);
-                    return; // sale del método, no ejecuta el resto
+                    return;
                 }
             }
+
             Collider2D sierrah = Physics2D.OverlapPoint(transform.position, enemigoLayer);
             if (sierrah != null)
             {
@@ -61,7 +70,7 @@ public class Hielo : MonoBehaviour
                     GameManager.Instance.estamina -= costeEstamina;
                     sierra.CambiarAHielo();
                     Destroy(gameObject);
-                    return; // sale del método, no ejecuta el resto
+                    return;
                 }
             }
         }

@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int vidas = 6;
     [SerializeField] public int estamina = 0;
     public TMP_Text vidasLeftText;
+    public TMP_Text estaminaLeftText;
 
     [Header("Corazones")]
     [SerializeField] private GameObject vida1;
@@ -22,8 +23,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject vidaPiedram2;
 
     private bool gameOver = false;
-
-    public TMP_Text estaminaLeftText;
 
     [SerializeField] private GameObject prefabJugador;
 
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour
         foreach (DobleSalto carta in cartasDobleSalto)
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
 
-        estaminaLeftText.color = puedePagarAlguna ? Color.white : Color.red;
+        estaminaLeftText.color = puedePagarAlguna ? Color.black : Color.red;
     }
     private void FixedUpdate()
     {
@@ -278,7 +277,7 @@ public class GameManager : MonoBehaviour
     {
         if (vidas != 0)
         {
-            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.5f, -2.86f, 0), Quaternion.identity);
+            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4.37f, 0), Quaternion.identity);
 
         }
         else GameOver();

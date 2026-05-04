@@ -13,12 +13,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject vida3;
     [SerializeField] private GameObject vidaPiedra1;
     [SerializeField] private GameObject vidaPiedra2;
+
     [Header("Mitades Corazones")]
     [SerializeField] private GameObject vidam1;
     [SerializeField] private GameObject vidam2;
     [SerializeField] private GameObject vidam3;
     [SerializeField] private GameObject vidaPiedram1;
     [SerializeField] private GameObject vidaPiedram2;
+
+    private bool gameOver = false;
 
     public TMP_Text estaminaLeftText;
 
@@ -90,8 +93,9 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-        if(vidas == 0)
+        if (vidas == 0 && !gameOver)
         {
+            gameOver = true;
             muerteJugador();
         }
     }
@@ -282,7 +286,8 @@ public class GameManager : MonoBehaviour
     public void muerteJugador()
     {
         PlayerController pc = FindFirstObjectByType<PlayerController>();
-        pc.Muerte();
+        if (pc != null)
+            pc.Muerte();
     }
     //PIEDRA
     public void AñadirPiedra()

@@ -9,6 +9,12 @@ public class SueloController : MonoBehaviour
     [SerializeField] private Color colorNormal = Color.white;
     [SerializeField] private Color colorHielo = new Color(0.5f, 0.8f, 1f);
     [SerializeField] private Color colorPiedra = new Color(0.31f, 0.27f, 0.25f);
+    [SerializeField] private Color colorFuego = new Color(1f, 0.14f, 0f);
+
+    [Header("Clase")]
+    public bool esTierra = false;
+    public bool esRoca = false;
+    public bool esMadera = false;
 
     [Header("Pinchos")]
     [SerializeField] private GameObject spritePinchos; // hijo desactivado
@@ -18,10 +24,22 @@ public class SueloController : MonoBehaviour
     [SerializeField] private float tiempoDestruccion = 2f;
     [SerializeField] private LayerMask objetivoLayer;
 
-    [Header("Clase")]
-    public bool esTierra = false;
-    public bool esRoca = false;
-    public bool esMadera = false;
+    [Header("Llama")]
+    [SerializeField] private float tiempoDestruccionFuego = 2f;
+    [SerializeField] private GameObject spriteFuego;
+    [SerializeField] private Vector2 fuegoCheckSize = new Vector2(0.9f, 0.2f);
+    [SerializeField] private Transform fuegoCheck;
+    [SerializeField] private LayerMask objetivoLayerFuego;
+    private bool esFuego = false;
+    private bool fuegoActivos = false;
+    private bool fragilFuego = false;
+    private float timerFragilFuego = 0f;
+    [SerializeField] private float tiempoFragilFuego = 2f;
+    private bool contandoFragilFuego = false;
+
+
+
+    [Header("Banco")]
 
 
     private Collider2D col;
@@ -42,51 +60,83 @@ public class SueloController : MonoBehaviour
 
     void Update()
     {
-        if (!esPiedra) return;
-
-        Collider2D objetivo = Physics2D.OverlapBox(pinchosCheck.position, pinchosCheckSize, 0f, objetivoLayer);
-
-        if (pinchosActivos)
+        // PINCHOS
+        if (esPiedra)
         {
-            // Hace daño mientras los pinchos están activos
-            if (objetivo != null)
-            {
-                PlayerController pc = objetivo.GetComponent<PlayerController>();
-                if (pc != null && !pc.esInvulnerable) 
-                {
-                    pc.StartCoroutine(pc.Invulnerabilidad());
-                    GameManager manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-                    manager.vidas -= 2;
-                }
-                SlimeController slime = objetivo.GetComponent<SlimeController>();
-                if (slime != null) slime.Muerte();
+            Collider2D objetivo = Physics2D.OverlapBox(pinchosCheck.position, pinchosCheckSize, 0f, objetivoLayer);
 
-                SierraController sierra = objetivo.GetComponent<SierraController>();
-                if (sierra != null) sierra.Muerte();
+            if (pinchosActivos)
+            {
+                if (objetivo != null)
+                {
+                    PlayerController pc = objetivo.GetComponent<PlayerController>();
+                    if (pc != null && !pc.esInvulnerable)
+                    {
+                        pc.StartCoroutine(pc.Invulnerabilidad());
+                        GameManager.Instance.vidas -= 2;
+                    }
+                    SlimeController slime = objetivo.GetComponent<SlimeController>();
+                    if (slime != null) slime.Muerte();
+                    SierraController sierra = objetivo.GetComponent<SierraController>();
+                    if (sierra != null) sierra.Muerte();
+                }
+
+                timerPinchos += Time.deltaTime;
+                if (timerPinchos >= tiempoDestruccion)
+                {
+                    pinchosActivos = false;
+                    if (spritePinchos != null)
+                        spritePinchos.SetActive(false);
+                    if (esHorizontal)
+                        fragil = true;
+                }
             }
 
-            timerPinchos += Time.deltaTime;
-            if (timerPinchos >= tiempoDestruccion)
+            if (fragil)
             {
-                pinchosActivos = false;
-                if (spritePinchos != null)
-                    spritePinchos.SetActive(false);
-
-                // Solo queda frágil si es horizontal
-                if (esHorizontal)
-                    fragil = true;
+                if (objetivo != null && !contandoFragil)
+                    contandoFragil = true;
+                if (contandoFragil)
+                {
+                    timerFragil += Time.deltaTime;
+                    if (timerFragil >= tiempoFragil)
+                        Destroy(gameObject);
+                }
             }
         }
-        if (fragil)
-        {
-            if (objetivo != null && !contandoFragil)
-                contandoFragil = true; // empieza la cuenta al primer contacto
 
-            if (contandoFragil)
+        // FUEGO
+        if (esFuego)
+        {
+            Collider2D objetivoFuego = Physics2D.OverlapBox(fuegoCheck.position, fuegoCheckSize, 0f, objetivoLayerFuego);
+
+            if (fuegoActivos)
             {
-                timerFragil += Time.deltaTime;
-                if (timerFragil >= tiempoFragil)
-                    Destroy(gameObject);
+                if (objetivoFuego != null)
+                {
+                    PlayerController pc = objetivoFuego.GetComponent<PlayerController>();
+                    if (pc != null && !pc.esInvulnerable)
+                    {
+                        pc.StartCoroutine(pc.Invulnerabilidad());
+                        GameManager.Instance.vidas -= 2;
+                    }
+                    SlimeController slime = objetivoFuego.GetComponent<SlimeController>();
+                    if (slime != null) slime.Muerte();
+                    SierraController sierra = objetivoFuego.GetComponent<SierraController>();
+                    if (sierra != null) sierra.Muerte();
+                }
+            }
+
+            if (fragilFuego)
+            {
+                if (objetivoFuego != null && !contandoFragilFuego)
+                    contandoFragilFuego = true;
+                if (contandoFragilFuego)
+                {
+                    timerFragilFuego += Time.deltaTime;
+                    if (timerFragilFuego >= tiempoFragilFuego)
+                        Destroy(gameObject);
+                }
             }
         }
     }
@@ -132,6 +182,32 @@ public class SueloController : MonoBehaviour
 
         if (spritePinchos != null)
             spritePinchos.SetActive(true);
+    }
+    public void Llama()
+    {
+        int prob = UnityEngine.Random.Range(1, 2);
+        switch (prob)
+        {
+            case 1:
+                col.sharedMaterial = materialNormal;
+                sr.color = colorFuego;
+                esFuego = true;
+                fuegoActivos = true;
+                if (esMadera) fragilFuego = true; // madera empieza a contar inmediatamente
+                if (spriteFuego != null)
+                    spriteFuego.SetActive(true);
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
+    }
+    public void Banco()
+    {
+
     }
 
 

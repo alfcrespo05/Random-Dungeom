@@ -27,20 +27,34 @@ public class Proyectil : MonoBehaviour
     {
         if (other.GetComponent<SlimeController>() != null) return;
 
+        // Comprueba LlamaAnimal ANTES del bloque de layers
+        LlamaAnimal la = other.GetComponent<LlamaAnimal>();
+        if (la != null)
+        {
+            la.Muerte();
+            Destroy(gameObject);
+            return;
+        }
+
+        ProyectilLlama prl = other.GetComponent<ProyectilLlama>();
+        if (prl != null)
+        {
+            prl.Muerte();
+            Destroy(gameObject);
+            return;
+        }
+
         PlayerController pc = other.GetComponent<PlayerController>();
         if (pc != null)
         {
-            // Empuje siempre, daño solo si no es invulnerable
             Rigidbody2D rbJugador = other.GetComponent<Rigidbody2D>();
             if (rbJugador != null)
                 rbJugador.AddForce(direccion * empuje, ForceMode2D.Impulse);
-
             if (!pc.esInvulnerable)
             {
                 GameManager.Instance.vidas -= 1;
                 pc.StartCoroutine(pc.Invulnerabilidad());
             }
-
             Destroy(gameObject);
             return;
         }
@@ -70,5 +84,10 @@ public class Proyectil : MonoBehaviour
         // Destruye si sale de la pantalla
         if (Mathf.Abs(transform.position.x) > 20f || Mathf.Abs(transform.position.y) > 20f)
             Destroy(gameObject);
+    }
+
+    public void Muerte()
+    {
+        Destroy(gameObject);
     }
 }

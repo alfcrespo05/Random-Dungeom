@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-        if (vidas == 0 && !gameOver)
+        if (vidas <= 0 && !gameOver)
         {
             gameOver = true;
             muerteJugador();
@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
             vidaPiedram1.SetActive(false);
             vidaPiedram2.SetActive(false);
         }
-        if (vidas == 0)
+        if (vidas <= 0)
         {
             //vidasLeftText.text = $"";
             vida1.SetActive(false);

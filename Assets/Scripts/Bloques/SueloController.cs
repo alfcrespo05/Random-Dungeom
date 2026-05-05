@@ -36,8 +36,11 @@ public class SueloController : MonoBehaviour
     private float timerFragilFuego = 0f;
     [SerializeField] private float tiempoFragilFuego = 2f;
     private bool contandoFragilFuego = false;
-
-
+    public Vector3   posicionOriginal;
+    [SerializeField] private GameObject prefabLlamaAnimal;
+    [SerializeField] private float alturaSueloLlama = 1.5f;
+    [SerializeField] private GameObject prefabTelefono;
+    [SerializeField] private float alturaSueloTelefono = 1.5f;
 
     [Header("Banco")]
 
@@ -56,6 +59,7 @@ public class SueloController : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
+        posicionOriginal = transform.position;
     }
 
     void Update()
@@ -185,7 +189,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(1, 2);
+        int prob = UnityEngine.Random.Range(2, 3);
         switch (prob)
         {
             case 1:
@@ -198,10 +202,12 @@ public class SueloController : MonoBehaviour
                     spriteFuego.SetActive(true);
                 break;
             case 2:
-
+                posicionOriginal += Vector3.up * alturaSueloLlama;
+                GameObject LlamaAnimal = Instantiate(prefabLlamaAnimal, posicionOriginal, Quaternion.identity);
                 break;
             case 3:
-
+                posicionOriginal += Vector3.up * alturaSueloTelefono;
+                GameObject Telefono = Instantiate(prefabTelefono, posicionOriginal, Quaternion.identity);
                 break;
         }
     }

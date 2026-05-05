@@ -122,12 +122,15 @@ MonoBehaviour:
     m_Bits: 192
   tiempoDestruccionFuego: 2
   spriteFuego: {fileID: 0}
-  fuegoCheckSize: {x: 2, y: 0.2}
+  fuegoCheckSize: {x: 1.4, y: 0.2}
   fuegoCheck: {fileID: 0}
   objetivoLayerFuego:
     serializedVersion: 2
     m_Bits: 192
   tiempoFragilFuego: 2
+  posicionOriginal: {x: 0, y: 0, z: 0}
+  prefabLlamaAnimal: {fileID: 7031388909776407297, guid: 6e5e1205563f40547ae3576c540532f4, type: 3}
+  alturaSuelo: 0.4
   tiempoFragil: 2
 --- !u!61 &5215704831637972476
 BoxCollider2D:

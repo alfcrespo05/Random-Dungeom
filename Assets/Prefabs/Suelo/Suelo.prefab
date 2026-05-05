@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9162020114654831528}
   - component: {fileID: 2735373857716507830}
+  - component: {fileID: 1555550751670885578}
   - component: {fileID: 2502420143528535872}
   m_Layer: 3
   m_Name: Suelo
@@ -88,6 +89,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1555550751670885578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871619497865157428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b886b0662ec99474eb956b9d2b24648d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &2502420143528535872
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -118,7 +131,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

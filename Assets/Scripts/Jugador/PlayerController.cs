@@ -46,15 +46,19 @@ public class PlayerController : MonoBehaviour
 
     void Movimiento()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        if (horizontal != 0)
+        if (Time.timeScale == 1)
         {
-            rb.AddForce(new Vector2(horizontal * velocidad, 0));
-            rb.linearVelocity = new Vector2(
-                Mathf.Clamp(rb.linearVelocity.x, -velocidadMax, velocidadMax),
-                rb.linearVelocity.y
-            );
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            if (horizontal != 0)
+            {
+                rb.AddForce(new Vector2(horizontal * velocidad, 0));
+                rb.linearVelocity = new Vector2(
+                    Mathf.Clamp(rb.linearVelocity.x, -velocidadMax, velocidadMax),
+                    rb.linearVelocity.y
+                );
+            }
         }
+        else return;
     }
 
     void OnDrawGizmos()
@@ -69,6 +73,11 @@ public class PlayerController : MonoBehaviour
     {
         velocidad *= 1.25f;
         velocidadMax *= 1.25f; // no olvides actualizar también la velocidad máxima
+    }
+    public void Lentitud()
+    {
+        velocidad *= 0.75f;
+        velocidadMax *= 0.75f;
     }
     public void InmovilidadBuff()
     {

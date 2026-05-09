@@ -130,7 +130,13 @@ MonoBehaviour:
   tiempoFragilFuego: 2
   posicionOriginal: {x: 0, y: 0, z: 0}
   prefabLlamaAnimal: {fileID: 7031388909776407297, guid: 6e5e1205563f40547ae3576c540532f4, type: 3}
-  alturaSuelo: 0.4
+  alturaSueloLlama: 1.5
+  prefabTelefono: {fileID: 3757724802506496069, guid: 2c66cd98c76510349b4a604b0954f03f, type: 3}
+  alturaSueloTelefono: 0.25
+  prefabPeces: {fileID: 4688034149771255471, guid: 34bda9418941f8c4cb6ff5ce8f361e11, type: 3}
+  alturaSueloPeces: 1
+  prefabBancoEdificio: {fileID: 6649955161524459598, guid: feb52285f5979e148956bb200415a783, type: 3}
+  alturaSueloBancoEdificio: 0.25
   tiempoFragil: 2
 --- !u!61 &5215704831637972476
 BoxCollider2D:

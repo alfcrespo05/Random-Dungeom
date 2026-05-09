@@ -5,8 +5,18 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] public int vidas = 6;
     [SerializeField] public int estamina = 0;
+    [SerializeField] public float tiempo = 0;
     public TMP_Text vidasLeftText;
     public TMP_Text estaminaLeftText;
+    public TextMeshProUGUI timeLeftText;
+
+    [Header("UI")]
+    [SerializeField] private GameObject botonPausa;
+    [SerializeField] private GameObject botonPlay;
+    [SerializeField] private GameObject menuPausa;
+    [SerializeField] private GameObject menuAjustes;
+    bool play = true;
+    public bool MoverCartas = true;
 
     [Header("Corazones")]
     [SerializeField] private GameObject vida1;
@@ -34,6 +44,11 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Time.timeScale = 0;
+        botonPausa.SetActive(true);
+        botonPlay.SetActive(true);
+        menuPausa.SetActive(false);
+        menuAjustes.SetActive(false);
         //vidasLeftText.text = $"<3 <3 <3";
         vida1.SetActive(true);
         vida2.SetActive(true);
@@ -55,6 +70,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        tiempo += Time.deltaTime;
+        int minutes = Mathf.FloorToInt(tiempo / 60f);
+        int seconds = Mathf.FloorToInt(tiempo % 60f);
+
+        timeLeftText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
         EstaminaRestante();
 
         Hielo[] cartasHielo = FindObjectsByType<Hielo>(FindObjectsSortMode.None);
@@ -63,6 +84,8 @@ public class GameManager : MonoBehaviour
         Velocidad[] cartasVelocidad = FindObjectsByType<Velocidad>(FindObjectsSortMode.None);
         Inmovilidad[] cartasInmovilidad = FindObjectsByType<Inmovilidad>(FindObjectsSortMode.None);
         DobleSalto[] cartasDobleSalto = FindObjectsByType<DobleSalto>(FindObjectsSortMode.None);
+        Banco[] cartasBanco = FindObjectsByType<Banco>(FindObjectsSortMode.None);
+        Llama[] cartasLlama = FindObjectsByType<Llama>(FindObjectsSortMode.None);
 
         bool puedePagarAlguna = false;
 
@@ -77,6 +100,10 @@ public class GameManager : MonoBehaviour
         foreach (Inmovilidad carta in cartasInmovilidad)
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
         foreach (DobleSalto carta in cartasDobleSalto)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (Banco carta in cartasBanco)
+            if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
+        foreach (Llama carta in cartasLlama)
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
 
         estaminaLeftText.color = puedePagarAlguna ? Color.black : Color.red;
@@ -295,5 +322,35 @@ public class GameManager : MonoBehaviour
        
 
     }
-    
+    public void Pausa()
+    {
+        Time.timeScale = 0;
+        botonPausa.SetActive(false);
+        botonPlay.SetActive(false);
+        menuPausa.SetActive(true);
+        menuAjustes.SetActive(false);
+        MoverCartas = false;
+
+    }
+    public void Play()
+    {
+        Time.timeScale = 1;
+        play = false;
+        MoverCartas = false;
+        botonPausa.SetActive(true);
+        botonPlay.SetActive(false);
+        menuPausa.SetActive(false);
+        menuAjustes.SetActive(false);
+    }
+    public void Reanudar()
+    {
+        if (play == true) { Time.timeScale = 0; MoverCartas = true; }
+        else Time.timeScale = 1;
+        if (play == true) botonPlay.SetActive(true);
+        else botonPlay.SetActive(false);
+        botonPausa.SetActive(true);
+        menuPausa.SetActive(false);
+        menuAjustes.SetActive(false);
+    }
+
 }

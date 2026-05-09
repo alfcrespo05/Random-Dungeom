@@ -43,6 +43,12 @@ public class SueloController : MonoBehaviour
     [SerializeField] private float alturaSueloTelefono = 1.5f;
 
     [Header("Banco")]
+    [SerializeField] private GameObject prefabPeces;
+    [SerializeField] private float alturaSueloPeces = 1f;
+    [SerializeField] private GameObject prefabBancoEdificio;
+    [SerializeField] private float alturaSueloBancoEdificio = 0.25f;
+    //[SerializeField] private GameObject prefabBancoSilla;
+    //[SerializeField] private float alturaSueloBancoSilla = 0.5f;
 
 
     private Collider2D col;
@@ -189,7 +195,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(2, 3);
+        int prob = UnityEngine.Random.Range(1, 4);
         switch (prob)
         {
             case 1:
@@ -213,7 +219,22 @@ public class SueloController : MonoBehaviour
     }
     public void Banco()
     {
-
+        int prob = UnityEngine.Random.Range(1, 2);
+        switch (prob)
+        {
+            case 1:
+                posicionOriginal += Vector3.up * alturaSueloPeces;
+                GameObject Peces = Instantiate(prefabPeces, posicionOriginal, Quaternion.identity);
+                break;
+            case 2:
+                posicionOriginal += Vector3.up * alturaSueloBancoEdificio;
+                GameObject BancoEdificio = Instantiate(prefabBancoEdificio, posicionOriginal, Quaternion.identity);
+                break;
+            case 3:
+                //posicionOriginal += Vector3.up * alturaSueloBancoSilla;
+                //GameObject BancoSilla = Instantiate(prefabBancoSilla, posicionOriginal, Quaternion.identity);
+                break;
+        }
     }
 
 

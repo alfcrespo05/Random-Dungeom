@@ -143,7 +143,7 @@ MonoBehaviour:
     m_Bits: 8
   velocidadPersecucion: 1.5
   rangoDeteccion: {x: 1, y: 0.5}
-  hitCheckSize: {x: 0.5, y: 0.2}
+  hitCheckSize: {x: 0.4, y: 0.05}
   hitCheck: {fileID: 1471728149921802379}
   playerLayer:
     serializedVersion: 2

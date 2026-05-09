@@ -6,6 +6,7 @@ public class Inmovilidad : MonoBehaviour
     private Camera cam;
     [SerializeField] private LayerMask jugadorLayer;
     [SerializeField] private LayerMask enemigoLayer;
+    [SerializeField] private LayerMask papeleraLayer;
     private Rigidbody2D rb;
     public int costeEstamina = 10;
     public Vector2 posicionOriginal;
@@ -28,6 +29,7 @@ public class Inmovilidad : MonoBehaviour
     }
     void OnMouseDown()
     {
+        if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -35,6 +37,7 @@ public class Inmovilidad : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)
         {
@@ -63,6 +66,7 @@ public class Inmovilidad : MonoBehaviour
                     PlayerController pc = FindFirstObjectByType<PlayerController>();
                     if (pc != null) pc.InmovilidadBuff();
 
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;
                 }
@@ -86,6 +90,19 @@ public class Inmovilidad : MonoBehaviour
                     foreach (SlimeController sl in slimes)
                         sl.InmovilidadBuff();
 
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+            Collider2D papelera = Physics2D.OverlapPoint(transform.position, papeleraLayer);
+            if (papelera != null)
+            {
+                Papelera papelerac = papelera.GetComponent<Papelera>();
+                if (papelera != null)
+                {
+                    GameManager.Instance.estamina += (costeEstamina / 2);
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;
                 }

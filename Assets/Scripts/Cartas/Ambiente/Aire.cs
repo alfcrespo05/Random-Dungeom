@@ -6,6 +6,7 @@ public class Aire : MonoBehaviour
     private Camera cam;
     [SerializeField] private LayerMask fondoLayer;
     [SerializeField] private LayerMask enemigoLayer;
+    [SerializeField] private LayerMask papeleraLayer;
     private Rigidbody2D rb;
     public int costeEstamina = 10;
     public Vector2 posicionOriginal;
@@ -28,6 +29,7 @@ public class Aire : MonoBehaviour
     }
     void OnMouseDown()
     {
+        if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -35,6 +37,7 @@ public class Aire : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)
         {
@@ -47,6 +50,7 @@ public class Aire : MonoBehaviour
                 {
                     GameManager.Instance.estamina -= costeEstamina;
                     slime.CambiarAAire();
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;
                 }
@@ -61,6 +65,19 @@ public class Aire : MonoBehaviour
                 {
                     GameManager.Instance.estamina -= costeEstamina;
                     fo.CambiarAAire();
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
+                    Destroy(gameObject);
+                    return;
+                }
+            }
+            Collider2D papelera = Physics2D.OverlapPoint(transform.position, papeleraLayer);
+            if (papelera != null)
+            {
+                Papelera papelerac = papelera.GetComponent<Papelera>();
+                if (papelera != null)
+                {
+                    GameManager.Instance.estamina += (costeEstamina / 2);
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;
                 }

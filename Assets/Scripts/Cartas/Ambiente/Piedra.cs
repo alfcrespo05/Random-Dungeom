@@ -6,6 +6,7 @@ public class Piedra : MonoBehaviour
     private Camera cam;
     private int sueloLayer;
     [SerializeField] private LayerMask UILayer;
+    [SerializeField] private LayerMask papeleraLayer;
     private Rigidbody2D rb;
     public int costeEstamina = 10;
     public Vector2 posicionOriginal;
@@ -29,6 +30,7 @@ public class Piedra : MonoBehaviour
     }
     void OnMouseDown()
     {
+        if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -36,6 +38,7 @@ public class Piedra : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!arrastrando) return;
         arrastrando = false;
 
         if (costeEstamina <= GameManager.Instance.estamina)
@@ -55,7 +58,7 @@ public class Piedra : MonoBehaviour
                         if (b.EsMismoTipo(suelo))
                             b.CambiarAPiedra();
                     }
-
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;
                 }
@@ -67,8 +70,21 @@ public class Piedra : MonoBehaviour
                 // simplemente llama al Instance directamente
                 GameManager.Instance.estamina -= costeEstamina;
                 GameManager.Instance.AñadirPiedra();
+                FindFirstObjectByType<MazoManager>().CartaUsada();
                 Destroy(gameObject);
                 return;
+            }
+            Collider2D papelera = Physics2D.OverlapPoint(transform.position, papeleraLayer);
+            if (papelera != null)
+            {
+                Papelera papelerac = papelera.GetComponent<Papelera>();
+                if (papelera != null)
+                {
+                    GameManager.Instance.estamina += (costeEstamina / 2);
+                    FindFirstObjectByType<MazoManager>().CartaUsada();
+                    Destroy(gameObject);
+                    return;
+                }
             }
         }
 

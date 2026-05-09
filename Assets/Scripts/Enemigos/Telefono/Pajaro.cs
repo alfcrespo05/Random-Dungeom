@@ -1,69 +1,98 @@
 using UnityEngine;
 
+public enum TipoObjetivo { Jugador, Enemigo }
+
 public class Pajaro : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private float velocidad = 5f;
+    private TipoObjetivo tipoObjetivo;
+    private Transform objetivo;
+    private Rigidbody2D rb;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        BuscarObjetivo();
     }
 
-    // Update is called once per frame
+    public void SetObjetivo(TipoObjetivo tipo)
+    {
+        tipoObjetivo = tipo;
+        BuscarObjetivo();
+    }
+
+    void BuscarObjetivo()
+    {
+        if (tipoObjetivo == TipoObjetivo.Jugador)
+        {
+            PlayerController jugador = FindFirstObjectByType<PlayerController>();
+            if (jugador != null) objetivo = jugador.transform;
+        }
+        else
+        {
+            // Busca un enemigo aleatorio (slime o sierra)
+            MonoBehaviour[] enemigos = new MonoBehaviour[0];
+            SlimeController[] slimes = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
+            SierraController[] sierras = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+
+            int total = slimes.Length + sierras.Length;
+            if (total == 0) return;
+
+            int indice = UnityEngine.Random.Range(0, total);
+            if (indice < slimes.Length)
+                objetivo = slimes[indice].transform;
+            else
+                objetivo = sierras[indice - slimes.Length].transform;
+        }
+    }
+
     void Update()
     {
-        CaerJugador();
+        if (objetivo == null)
+        {
+            BuscarObjetivo(); // si el objetivo murió busca otro
+            return;
+        }
+
+        // Mueve hacia el objetivo
+        Vector2 dir = (objetivo.position - transform.position).normalized;
+        rb.linearVelocity = dir * velocidad;
     }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<LlamaAnimal>() != null) return;
+        if (other.GetComponent<Telefono>() != null) return;
+        if (other.GetComponent<Pajaro>() != null) return;
 
         PlayerController pc = other.GetComponent<PlayerController>();
         if (pc != null)
         {
-            // Empuje siempre, daño solo si no es invulnerable
-            Rigidbody2D rbJugador = other.GetComponent<Rigidbody2D>();
-            if (rbJugador != null)
-              
-
             if (!pc.esInvulnerable)
             {
                 GameManager.Instance.vidas -= 2;
                 pc.StartCoroutine(pc.Invulnerabilidad());
             }
-
             Destroy(gameObject);
             return;
         }
+
         SlimeController slc = other.GetComponent<SlimeController>();
         if (slc != null)
         {
-            // Empuje siempre, daño solo si no es invulnerable
-            Rigidbody2D rbslime = other.GetComponent<Rigidbody2D>();
-            if (rbslime != null) slc.Muerte();
-
+            slc.Muerte();
             Destroy(gameObject);
             return;
         }
-        
 
+        SierraController sc = other.GetComponent<SierraController>();
+        if (sc != null)
+        {
+            sc.Muerte();
+            Destroy(gameObject);
+            return;
+        }
     }
-   
-    void CaerJugador()
-    {
-        PlayerController jugador = FindFirstObjectByType<PlayerController>();
-        if (jugador == null) return;
 
-        Vector2 dir = jugador.transform.position;
-   
-    }
-    void CaerEnemigo()
-    {
-        PlayerController jugador = FindFirstObjectByType<PlayerController>();
-        if (jugador == null) return;
-
-        Vector2 dir = jugador.transform.position;
-
-    }
     public void Muerte()
     {
         Destroy(gameObject);

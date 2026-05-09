@@ -6,6 +6,7 @@ public class Hielo : MonoBehaviour
     private Camera cam;
     private int sueloLayer;
     [SerializeField] private LayerMask enemigoLayer;
+    [SerializeField] private LayerMask papeleraLayer;
     private Rigidbody2D rb;
     public int costeEstamina = 10;
     public Vector2 posicionOriginal;
@@ -29,6 +30,8 @@ public class Hielo : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -36,50 +39,67 @@ public class Hielo : MonoBehaviour
 
     void OnMouseUp()
     {
+        if (!arrastrando) return; // si no estaba arrastrando no hace nada
         arrastrando = false;
 
-        if (costeEstamina <= GameManager.Instance.estamina)
-        {
-            Collider2D bloque = Physics2D.OverlapPoint(transform.position, sueloLayer);
-            if (bloque != null)
+            if (costeEstamina <= GameManager.Instance.estamina)
             {
-                SueloController suelo = bloque.GetComponent<SueloController>();
-                if (suelo != null)
+                Collider2D bloque = Physics2D.OverlapPoint(transform.position, sueloLayer);
+                if (bloque != null)
                 {
-                    GameManager.Instance.estamina -= costeEstamina;
-
-                    // Aplica hielo a todos los bloques del mismo tipo
-                    SueloController[] todosLosBloques = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
-                    foreach (SueloController b in todosLosBloques)
+                    SueloController suelo = bloque.GetComponent<SueloController>();
+                    if (suelo != null)
                     {
-                        if (b.EsMismoTipo(suelo))
-                            b.CambiarAHielo();
+                        GameManager.Instance.estamina -= costeEstamina;
+
+                        // Aplica hielo a todos los bloques del mismo tipo
+                        SueloController[] todosLosBloques = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+                        foreach (SueloController b in todosLosBloques)
+                        {
+                            if (b.EsMismoTipo(suelo))
+                                b.CambiarAHielo();
+                        }
+
+                        FindFirstObjectByType<MazoManager>().CartaUsada();
+                        Destroy(gameObject);
+                        return;
                     }
-
-                    Destroy(gameObject);
-                    return;
                 }
-            }
 
-            Collider2D sierrah = Physics2D.OverlapPoint(transform.position, enemigoLayer);
-            if (sierrah != null)
-            {
-                SierraController sierra = sierrah.GetComponent<SierraController>();
-                if (sierra != null)
+                Collider2D sierrah = Physics2D.OverlapPoint(transform.position, enemigoLayer);
+                if (sierrah != null)
                 {
-                    GameManager.Instance.estamina -= costeEstamina;
-                    sierra.CambiarAHielo();
-                    Destroy(gameObject);
-                    return;
+                    SierraController sierra = sierrah.GetComponent<SierraController>();
+                    if (sierra != null)
+                    {
+                        GameManager.Instance.estamina -= costeEstamina;
+                        sierra.CambiarAHielo();
+                        FindFirstObjectByType<MazoManager>().CartaUsada();
+                        Destroy(gameObject);
+                        return;
+                    }
+                }
+                Collider2D papelera = Physics2D.OverlapPoint(transform.position, papeleraLayer);
+                if (papelera != null)
+                {
+                    Papelera papelerac = papelera.GetComponent<Papelera>();
+                    if (papelera != null)
+                    {
+                        GameManager.Instance.estamina += (costeEstamina / 2);
+                        FindFirstObjectByType<MazoManager>().CartaUsada();
+                        Destroy(gameObject);
+                        return;
+                    }
                 }
             }
-        }
 
-        // Si no se usó la carta por cualquier motivo, vuelve a la posición original
-        transform.position = posicionOriginal;
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        GetComponent<Collider2D>().enabled = true;
+            // Si no se usó la carta por cualquier motivo, vuelve a la posición original
+            transform.position = posicionOriginal;
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            GetComponent<Collider2D>().enabled = true;
+        
+       
     }
 
 

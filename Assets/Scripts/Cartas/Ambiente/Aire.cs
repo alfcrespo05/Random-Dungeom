@@ -30,6 +30,8 @@ public class Aire : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        SlimeController slc = FindFirstObjectByType<SlimeController>(); slc.Subrayar();
+        FondoController fc = FindFirstObjectByType<FondoController>(); fc.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -37,6 +39,8 @@ public class Aire : MonoBehaviour
 
     void OnMouseUp()
     {
+        SlimeController slc = FindFirstObjectByType<SlimeController>(); slc.NoSubrayar();
+        FondoController fc = FindFirstObjectByType<FondoController>(); fc.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)

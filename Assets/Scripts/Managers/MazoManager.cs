@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public class MazoManager : MonoBehaviour
 {
     [Header("Prefabs de cartas")]
-    [SerializeField] private GameObject[] prefabsCartas; // arrastra aquí todos los prefabs
+    [SerializeField] private GameObject[] prefabsCartas; // todas las cartas menos polisémicas
+    [SerializeField] private GameObject[] prefabsPolisemicas; // las dos polisémicas 
     [SerializeField] private Transform posicionMazo; // punto donde aparece la primera carta
     [SerializeField] private float separacionVertical = 1f; // distancia entre cartas
 
@@ -17,8 +18,20 @@ public class MazoManager : MonoBehaviour
 
     void GenerarMazo()
     {
-        // Copia y mezcla aleatoriamente
         List<GameObject> cartasAleatorias = new List<GameObject>(prefabsCartas);
+
+        // Elige una polisemica aleatoria para el principio
+        int indicePolisemica = Random.Range(0, prefabsPolisemicas.Length);
+        GameObject polisemica = prefabsPolisemicas[indicePolisemica];
+
+        // Añade la otra polisemica al mazo normal
+        for (int i = 0; i < prefabsPolisemicas.Length; i++)
+        {
+            if (i != indicePolisemica)
+                cartasAleatorias.Add(prefabsPolisemicas[i]);
+        }
+
+        // Mezcla las cartas normales + la polisemica restante
         for (int i = cartasAleatorias.Count - 1; i > 0; i--)
         {
             int j = Random.Range(0, i + 1);
@@ -27,7 +40,13 @@ public class MazoManager : MonoBehaviour
             cartasAleatorias[j] = temp;
         }
 
-        // Instancia las cartas en columna
+        // Pone la polisemica elegida al principio
+        cartasAleatorias.Insert(0, polisemica);
+
+        foreach (GameObject carta in cartasAleatorias)
+            Debug.Log("Carta en mazo: " + carta.name);
+
+        // Instancia las cartas
         for (int i = 0; i < cartasAleatorias.Count; i++)
         {
             Vector3 pos = posicionMazo.position + Vector3.up * i * separacionVertical;
@@ -38,7 +57,6 @@ public class MazoManager : MonoBehaviour
             if (sr != null)
                 sr.sortingOrder = cartasAleatorias.Count - i;
 
-            // Desactiva todas menos la primera
             if (i != 0)
                 carta.GetComponent<Collider2D>().enabled = false;
         }

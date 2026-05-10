@@ -145,7 +145,7 @@ MonoBehaviour:
   materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
   materialHielo: {fileID: 6200000, guid: 84fea4a734f7fe14b885bf70f2063ffe, type: 2}
   velocidadPatrulla: 1
-  distanciaBloque: 0.5
+  distanciaBloque: 1
   empuje: 5
   radioEmpuje: 0.4
 --- !u!58 &2369483468271521637

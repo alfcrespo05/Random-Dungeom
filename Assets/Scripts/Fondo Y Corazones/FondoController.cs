@@ -5,11 +5,18 @@ public class FondoController : MonoBehaviour
     [SerializeField] private float fuerzaViento = 5f;
     [SerializeField] private float intervaloCambio = 10f;
     [SerializeField] private LayerMask objetivosLayer; // Player + Enemigos que se mueven
+    [SerializeField] private Color colorNormal = Color.white;
+
+    private SpriteRenderer sr;
 
     private bool aireActivo = false;
     private float direccion = 1f; // 1 = derecha, -1 = izquierda
     private float timer = 0f;
-
+    private void Start()
+    {
+       
+        sr = GetComponent<SpriteRenderer>();
+    }
     void Update()
     {
         if (!aireActivo) return;
@@ -40,7 +47,16 @@ public class FondoController : MonoBehaviour
                 rbSlime.AddForce(new Vector2(direccion * fuerzaViento, 0));
         }
     }
-
+    public void Subrayar()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
+    }
+    public void NoSubrayar()
+    {
+       
+        sr.color = colorNormal;
+    }
     public void CambiarAAire()
     {
         aireActivo = true;

@@ -31,6 +31,8 @@ public class Piedra : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        SueloController suc = FindFirstObjectByType<SueloController>(); suc.Subrayar();
+        Corazones cc = FindFirstObjectByType<Corazones>(); cc.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -38,6 +40,8 @@ public class Piedra : MonoBehaviour
 
     void OnMouseUp()
     {
+        SueloController suc = FindFirstObjectByType<SueloController>(); suc.NoSubrayar();
+        Corazones cc = FindFirstObjectByType<Corazones>(); cc.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
 

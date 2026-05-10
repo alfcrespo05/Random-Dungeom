@@ -31,6 +31,10 @@ public class Hielo : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        SueloController suelo = FindFirstObjectByType<SueloController>();
+        suelo.Subrayar();
+        SierraController sierra = FindFirstObjectByType<SierraController>();
+        sierra.Subrayar();
 
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -39,6 +43,9 @@ public class Hielo : MonoBehaviour
 
     void OnMouseUp()
     {
+        SierraController sc = FindFirstObjectByType<SierraController>();
+        sc.NoSubrayar();
+        SueloController suc = FindFirstObjectByType<SueloController>(); suc.NoSubrayar();
         if (!arrastrando) return; // si no estaba arrastrando no hace nada
         arrastrando = false;
 

@@ -30,6 +30,9 @@ public class Inmovilidad : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        SierraController sirc = FindFirstObjectByType<SierraController>(); sirc.Subrayar();
+        SlimeController slimeController = FindFirstObjectByType<SlimeController>(); slimeController.Subrayar();
+        PlayerController playerController = FindFirstObjectByType<PlayerController>(); playerController.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -37,6 +40,9 @@ public class Inmovilidad : MonoBehaviour
 
     void OnMouseUp()
     {
+        SierraController sirc = FindFirstObjectByType<SierraController>(); sirc.NoSubrayar();
+        SlimeController slimeController = FindFirstObjectByType<SlimeController>(); slimeController.NoSubrayar();
+        PlayerController playerController = FindFirstObjectByType<PlayerController>(); playerController.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)

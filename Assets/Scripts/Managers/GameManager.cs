@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,8 +16,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject botonPlay;
     [SerializeField] private GameObject menuPausa;
     [SerializeField] private GameObject menuAjustes;
+    [SerializeField] private GameObject menuSonido;
+    [SerializeField] private GameObject menuControles;
+    [SerializeField] private GameObject Derrota;
+    [SerializeField] private GameObject Victoria;
+    public TextMeshProUGUI TiempoText;
+    public TextMeshProUGUI MejorTiempoText;
+    public TextMeshProUGUI EstrellastText;
     bool play = true;
     public bool MoverCartas = true;
+    private bool gameOver = false;
+    public bool win = false;
+    public int estrella = 0;
 
     [Header("Corazones")]
     [SerializeField] private GameObject vida1;
@@ -32,7 +43,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject vidaPiedram1;
     [SerializeField] private GameObject vidaPiedram2;
 
-    private bool gameOver = false;
+
 
     [SerializeField] private GameObject prefabJugador;
 
@@ -49,6 +60,10 @@ public class GameManager : MonoBehaviour
         botonPlay.SetActive(true);
         menuPausa.SetActive(false);
         menuAjustes.SetActive(false);
+        menuSonido.SetActive(false);
+        menuControles.SetActive(false);
+        Derrota.SetActive(false);
+        Victoria.SetActive(false);
         //vidasLeftText.text = $"<3 <3 <3";
         vida1.SetActive(true);
         vida2.SetActive(true);
@@ -62,22 +77,16 @@ public class GameManager : MonoBehaviour
         vidaPiedram1.SetActive(false);
         vidaPiedram2.SetActive(false);
 
-        EstaminaRestante();
+      
         estamina = UnityEngine.Random.Range(15, 101); //15, 101
+        EstaminaRestante();
         SpawnJugador(); // spawna el jugador al inicio
     }
 
     // Update is called once per frame
     void Update()
     {
-        tiempo += Time.deltaTime;
-        int minutes = Mathf.FloorToInt(tiempo / 60f);
-        int seconds = Mathf.FloorToInt(tiempo % 60f);
-
-        timeLeftText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-
         EstaminaRestante();
-
         Hielo[] cartasHielo = FindObjectsByType<Hielo>(FindObjectsSortMode.None);
         Piedra[] cartasPiedra = FindObjectsByType<Piedra>(FindObjectsSortMode.None);
         Aire[] cartasAire = FindObjectsByType<Aire>(FindObjectsSortMode.None);
@@ -107,11 +116,42 @@ public class GameManager : MonoBehaviour
             if (carta.costeEstamina <= estamina) { puedePagarAlguna = true; break; }
 
         estaminaLeftText.color = puedePagarAlguna ? Color.black : Color.red;
+
+        if (Time.timeScale == 0) return; // no cuenta si está pausado
+
+        tiempo += Time.deltaTime;
+        int minutes = Mathf.FloorToInt(tiempo / 60f);
+        int seconds = Mathf.FloorToInt(tiempo % 60f);
+        string tiempoFormato = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        timeLeftText.text = tiempoFormato;
+        TiempoText.text = tiempoFormato;
+      
+
+        // Mejor tiempo
+        float mejorTiempo = PlayerPrefs.GetFloat("MejorTiempo", float.MaxValue);
+        if (mejorTiempo == float.MaxValue)
+            MejorTiempoText.text = "Mejor: --:--";
+        else
+        {
+            int mMin = Mathf.FloorToInt(mejorTiempo / 60f);
+            int mSec = Mathf.FloorToInt(mejorTiempo % 60f);
+            MejorTiempoText.text = string.Format("Mejor: {0:00}:{1:00}", mMin, mSec);
+        }
+
+        timeLeftText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        EstrellastText.text = $"Estrellas: " + estrella + "/3";
+        TiempoText.text = timeLeftText.text;
+
+      
+
+     
     }
     private void FixedUpdate()
     {
         ContarVidas();
         GameOver();
+        WinLose();
     }
     public void EstaminaRestante()
     {
@@ -123,6 +163,29 @@ public class GameManager : MonoBehaviour
         {
             gameOver = true;
             muerteJugador();
+        }
+    }
+    public void WinLose()
+    {
+        if (gameOver)
+        {
+            Derrota.SetActive(true);
+            Victoria.SetActive(false);
+            Time.timeScale = 0;
+        }
+        if (win)
+        {
+            Derrota.SetActive(false);
+            Victoria.SetActive(true);
+            Time.timeScale = 0;
+
+            // Guarda el mejor tiempo
+            float mejorTiempo = PlayerPrefs.GetFloat("MejorTiempo", float.MaxValue);
+            if (tiempo < mejorTiempo)
+            {
+                PlayerPrefs.SetFloat("MejorTiempo", tiempo);
+                PlayerPrefs.Save();
+            }
         }
     }
     public void ContarVidas()
@@ -351,6 +414,42 @@ public class GameManager : MonoBehaviour
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
         menuAjustes.SetActive(false);
+    }
+    public void Reiniciar()
+    {
+        SceneManager.LoadScene(1);
+    }
+    public void MenuPrincipal()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Salir()
+    {
+        SceneManager.LoadScene(0);
+    }
+    public void Ajustes()
+    {
+        menuAjustes.SetActive(true);
+    }
+    public void AjustesVolver()
+    {
+        menuAjustes.SetActive(false);
+    }
+    public void Sonido()
+    {
+        menuSonido.SetActive(true);
+    }
+    public void SonidoVolver()
+    {
+        menuSonido.SetActive(false);
+    }
+    public void Controles()
+    {
+        menuControles.SetActive(true);
+    }
+    public void ConrolesVolver()
+    {
+        menuControles.SetActive(false);
     }
 
 }

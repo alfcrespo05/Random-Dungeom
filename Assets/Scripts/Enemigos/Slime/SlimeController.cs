@@ -255,6 +255,16 @@ public class SlimeController : MonoBehaviour
         BoxCollider2D boxCol = gameObject.AddComponent<BoxCollider2D>();
         boxCol.size = new Vector2(0.9f,0.5f);
     }
+    public void Subrayar()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
+    }
+    public void NoSubrayar()
+    {
+        col.sharedMaterial = materialNormal;
+        sr.color = colorNormal;
+    }
     public void Muerte()
     {
 

@@ -10,7 +10,7 @@ public class Peces : MonoBehaviour
     private bool iniciado = false;
     private float timerEspera = 0f;
     [SerializeField] private float tiempoEspera = 1f;
-    //[SerializeField] private float timerVida = 10f;
+    [SerializeField] private float timerVida = 10f;
 
     void Start()
     {
@@ -38,8 +38,8 @@ public class Peces : MonoBehaviour
             return;
         }
 
-        //timerVida -= Time.deltaTime;
-        //if (timerVida <= 0f) { Destroy(gameObject); return; }
+        timerVida -= Time.deltaTime;
+        if (timerVida <= 0f) { Destroy(gameObject); return; }
 
         if (!llegando)
         {

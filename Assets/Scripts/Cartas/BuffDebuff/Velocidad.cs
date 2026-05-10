@@ -30,6 +30,8 @@ public class Velocidad : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        SierraController sic = FindFirstObjectByType<SierraController>(); sic.Subrayar();
+        PlayerController pc = FindFirstObjectByType<PlayerController>(); pc.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -37,6 +39,8 @@ public class Velocidad : MonoBehaviour
 
     void OnMouseUp()
     {
+        SierraController sic = FindFirstObjectByType<SierraController>(); sic.NoSubrayar();
+        PlayerController plc = FindFirstObjectByType<PlayerController>(); plc.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)

@@ -26,8 +26,6 @@ public class SierraController : MonoBehaviour
     [SerializeField] private float radioEmpuje = 1.5f;
     private bool inmovilizado = false;
 
-
-
     private Collider2D col;
     private bool helado = false;
     private Rigidbody2D rb;
@@ -118,6 +116,16 @@ public class SierraController : MonoBehaviour
     {
         Daño = 1;
         inmovilizado = true;
+    }
+    public void Subrayar()
+    {
+       SpriteRenderer sr = GetComponent<SpriteRenderer>();
+       if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
+    }
+    public void NoSubrayar()
+    {
+        col.sharedMaterial = materialNormal;
+        sr.color = colorNormal;
     }
     public void Muerte()
     {

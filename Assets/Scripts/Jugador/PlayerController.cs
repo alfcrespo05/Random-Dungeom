@@ -18,10 +18,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 groundCheckSize = new Vector2(0.9f, 0.1f);
 
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
+    [SerializeField] private Color colorNormal = Color.black;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
         dobleSalto = false;
     }
 
@@ -34,13 +37,15 @@ public class PlayerController : MonoBehaviour
             saltosRestantes = dobleSalto ? 2 : 1;
 
         estabaEnSuelo = isGrounded;
-
-        if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
+        if (Time.timeScale == 1)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            saltosRestantes--;
+            if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                saltosRestantes--;
+            }
         }
-
+        else return;
         Movimiento();
     }
 
@@ -107,9 +112,20 @@ public class PlayerController : MonoBehaviour
         sr.enabled = true;
         esInvulnerable = false;
     }
+    public void Subrayar()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
+    }
+    public void NoSubrayar()
+    {
+     
+        sr.color = colorNormal;
+    }
     public void Muerte()
     {
         Destroy(gameObject);
     }
+
    
 }

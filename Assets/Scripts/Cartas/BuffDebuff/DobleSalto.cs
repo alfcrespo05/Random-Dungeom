@@ -29,6 +29,7 @@ public class DobleSalto : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
+        PlayerController pc = FindFirstObjectByType<PlayerController>(); pc.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -36,6 +37,7 @@ public class DobleSalto : MonoBehaviour
 
     void OnMouseUp()
     {
+        PlayerController plc = FindFirstObjectByType<PlayerController>(); plc.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)

@@ -105,10 +105,12 @@ MonoBehaviour:
   materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
   materialHielo: {fileID: 6200000, guid: 84fea4a734f7fe14b885bf70f2063ffe, type: 2}
   materialPiedra: {fileID: 6200000, guid: 94e3b1c281f3818408f7fe56b5b829df, type: 2}
-  colorNormal: {r: 0.8196079, g: 0.8196079, b: 0.8196079, a: 1}
+  colorNormalTierra: {r: 0.760169, g: 0.8207547, b: 0.39101994, a: 1}
+  colorNormalRoca: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
+  colorNormalMadera: {r: 0.3679245, g: 0.18468536, b: 0.053800277, a: 1}
   colorHielo: {r: 0.5, g: 0.8, b: 1, a: 1}
   colorPiedra: {r: 0.30980393, g: 0.27058825, b: 0.24313727, a: 1}
-  colorFuego: {r: 1, g: 0.30254513, b: 0, a: 1}
+  colorFuego: {r: 1, g: 0.25845027, b: 0, a: 1}
   esTierra: 0
   esRoca: 0
   esMadera: 1
@@ -134,7 +136,7 @@ MonoBehaviour:
   prefabTelefono: {fileID: 3757724802506496069, guid: 2c66cd98c76510349b4a604b0954f03f, type: 3}
   alturaSueloTelefono: 0.25
   prefabPeces: {fileID: 4688034149771255471, guid: 34bda9418941f8c4cb6ff5ce8f361e11, type: 3}
-  alturaSueloPeces: 1
+  alturaSueloPeces: 2
   prefabBancoEdificio: {fileID: 6649955161524459598, guid: feb52285f5979e148956bb200415a783, type: 3}
   alturaSueloBancoEdificio: 0.25
   tiempoFragil: 2

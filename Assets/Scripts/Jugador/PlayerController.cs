@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.Salto);
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 saltosRestantes--;
             }
@@ -124,6 +125,8 @@ public class PlayerController : MonoBehaviour
     }
     public void Muerte()
     {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteSound);
+        GameManager.Instance.vidas = 0;
         Destroy(gameObject);
     }
 

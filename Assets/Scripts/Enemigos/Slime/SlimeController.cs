@@ -102,6 +102,7 @@ public class SlimeController : MonoBehaviour
 
     void Patrullar()
     {
+      
         // Cambia de dirección al llegar al borde del bloque
         if (transform.position.x >= puntoOrigen.x + distanciaBloque)
             direccion = -1f;
@@ -109,6 +110,7 @@ public class SlimeController : MonoBehaviour
             direccion = 1f;
 
         rb.linearVelocity = new Vector2(direccion * velocidadPatrulla, rb.linearVelocity.y);
+        Debug.Log("Patrullando Slime");
     }
 
     void Perseguir()
@@ -132,7 +134,7 @@ public class SlimeController : MonoBehaviour
         if (jugadorArriba != null)
         {
             // El jugador pisó al slime muere el slime
-            Destroy(gameObject);
+            Muerte();
         }
     }
     void ComprobarHitLateral()
@@ -146,6 +148,7 @@ public class SlimeController : MonoBehaviour
                 PlayerController pc = jugadorLateral.GetComponent<PlayerController>();
                 if (pc != null && !pc.esInvulnerable) // comprueba primero
                 {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                     GameManager.Instance.vidas -= 1; // luego resta vidas
                     pc.StartCoroutine(pc.Invulnerabilidad());
                 }
@@ -221,6 +224,7 @@ public class SlimeController : MonoBehaviour
         if (jugador == null || prefabProyectil == null) return;
 
         Vector2 dir = (jugador.transform.position - transform.position).normalized;
+        AudioManager.Instance.PlaySound(AudioManager.Instance.enemigoDisparo);
         GameObject proyectil = Instantiate(prefabProyectil, transform.position, Quaternion.identity);
         proyectil.GetComponent<Proyectil>().SetDireccion(dir);
     }
@@ -263,11 +267,12 @@ public class SlimeController : MonoBehaviour
     public void NoSubrayar()
     {
         col.sharedMaterial = materialNormal;
-        sr.color = colorNormal;
+        if(aire == true) sr.color = colorAire;
+        else sr.color = colorNormal;
     }
     public void Muerte()
     {
-
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
         Destroy(gameObject);
     }
 }

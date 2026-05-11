@@ -20,11 +20,9 @@ public class Lava : MonoBehaviour
         if (pc != null)
         {
             Rigidbody2D rbJugador = other.GetComponent<Rigidbody2D>();
-            if (!pc.esInvulnerable)
-            {
-                GameManager.Instance.vidas -= 10;
-                pc.StartCoroutine(pc.Invulnerabilidad());
-            }
+            AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
+            pc.Muerte();
+            
             return;
         }
     }

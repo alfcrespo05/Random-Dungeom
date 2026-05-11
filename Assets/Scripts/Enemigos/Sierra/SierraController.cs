@@ -51,6 +51,7 @@ public class SierraController : MonoBehaviour
             PlayerController pc = jugador.GetComponent<PlayerController>();
             if (pc != null && !pc.esInvulnerable)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= Daño;
                 pc.StartCoroutine(pc.Invulnerabilidad());
 
@@ -125,10 +126,12 @@ public class SierraController : MonoBehaviour
     public void NoSubrayar()
     {
         col.sharedMaterial = materialNormal;
-        sr.color = colorNormal;
+        if (helado == true) sr.color = colorHielo;
+        else sr.color = colorNormal;
     }
     public void Muerte()
     {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
         Destroy(gameObject);
     }
 }

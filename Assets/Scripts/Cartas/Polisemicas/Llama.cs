@@ -29,7 +29,10 @@ public class Llama : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
-        SueloController sc = FindFirstObjectByType<SueloController>(); sc.Subrayar();
+
+        SueloController[] suelos = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+        foreach (SueloController suelo in suelos) suelo.Subrayar();
+
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
         GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
@@ -37,7 +40,8 @@ public class Llama : MonoBehaviour
 
     void OnMouseUp()
     {
-        SueloController sc = FindFirstObjectByType<SueloController>(); sc.NoSubrayar();
+        SueloController[] suelos = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+        foreach (SueloController suelo in suelos) suelo.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;
         if (costeEstamina <= GameManager.Instance.estamina)

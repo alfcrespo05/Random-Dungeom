@@ -31,21 +31,30 @@ public class Hielo : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
-        SueloController suelo = FindFirstObjectByType<SueloController>();
-        suelo.Subrayar();
-        SierraController sierra = FindFirstObjectByType<SierraController>();
-        sierra.Subrayar();
+
+        // Subraya todos los SueloController
+        SueloController[] suelos = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+        foreach (SueloController suelo in suelos)
+            suelo.Subrayar();
+
+        // Subraya todas las sierras
+        SierraController[] sierras = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierras)
+            sierra.Subrayar();
 
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
-        GetComponent<Collider2D>().enabled = false; // desactiva colisiones al arrastrar
+        GetComponent<Collider2D>().enabled = false;
     }
 
     void OnMouseUp()
     {
-        SierraController sc = FindFirstObjectByType<SierraController>();
-        sc.NoSubrayar();
-        SueloController suc = FindFirstObjectByType<SueloController>(); suc.NoSubrayar();
+        SueloController[] suelos = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+        foreach (SueloController suelo in suelos) suelo.NoSubrayar();
+
+        SierraController[] sierras = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierras)
+            sierra.NoSubrayar();
         if (!arrastrando) return; // si no estaba arrastrando no hace nada
         arrastrando = false;
 

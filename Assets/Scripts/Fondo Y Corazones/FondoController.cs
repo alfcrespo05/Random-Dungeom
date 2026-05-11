@@ -28,24 +28,27 @@ public class FondoController : MonoBehaviour
             timer = 0f;
             direccion *= -1f;
         }
-
-        // Aplica fuerza al jugador
-        PlayerController jugador = FindFirstObjectByType<PlayerController>();
-        if (jugador != null)
+        if(Time.timeScale == 1)
         {
-            Rigidbody2D rbJugador = jugador.GetComponent<Rigidbody2D>();
-            if (rbJugador != null)
-                rbJugador.AddForce(new Vector2(direccion * fuerzaViento, 0));
-        }
+            // Aplica fuerza al jugador
+            PlayerController jugador = FindFirstObjectByType<PlayerController>();
+            if (jugador != null)
+            {
+                Rigidbody2D rbJugador = jugador.GetComponent<Rigidbody2D>();
+                if (rbJugador != null)
+                    rbJugador.AddForce(new Vector2(direccion * fuerzaViento, 0));
+            }
 
-        // Aplica fuerza a los slimes (solo si se mueven)
-        SlimeController[] slimes = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
-        foreach (SlimeController slime in slimes)
-        {
-            Rigidbody2D rbSlime = slime.GetComponent<Rigidbody2D>();
-            if (rbSlime != null)
-                rbSlime.AddForce(new Vector2(direccion * fuerzaViento, 0));
+            // Aplica fuerza a los slimes (solo si se mueven)
+            SlimeController[] slimes = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
+            foreach (SlimeController slime in slimes)
+            {
+                Rigidbody2D rbSlime = slime.GetComponent<Rigidbody2D>();
+                if (rbSlime != null)
+                    rbSlime.AddForce(new Vector2(direccion * fuerzaViento, 0));
+            }
         }
+        
     }
     public void Subrayar()
     {

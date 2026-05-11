@@ -30,7 +30,9 @@ public class Velocidad : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
-        SierraController sic = FindFirstObjectByType<SierraController>(); sic.Subrayar();
+        SierraController[] sierras = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierras)
+            sierra.Subrayar();
         PlayerController pc = FindFirstObjectByType<PlayerController>(); pc.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -39,7 +41,9 @@ public class Velocidad : MonoBehaviour
 
     void OnMouseUp()
     {
-        SierraController sic = FindFirstObjectByType<SierraController>(); sic.NoSubrayar();
+        SierraController[] sierrasc = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierrasc)
+            sierra.NoSubrayar();
         PlayerController plc = FindFirstObjectByType<PlayerController>(); plc.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;

@@ -69,10 +69,11 @@ public class Pajaro : MonoBehaviour
         {
             if (!pc.esInvulnerable)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= 2;
                 pc.StartCoroutine(pc.Invulnerabilidad());
             }
-            Destroy(gameObject);
+            pc.Muerte();
             return;
         }
 
@@ -95,6 +96,7 @@ public class Pajaro : MonoBehaviour
 
     public void Muerte()
     {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
         Destroy(gameObject);
     }
 }

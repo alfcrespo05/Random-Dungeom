@@ -53,7 +53,7 @@ public class LlamaAnimal : MonoBehaviour
         if (jugadorArriba != null)
         {
             // El jugador pisó al slime muere el slime
-            Destroy(gameObject);
+            Muerte();
         }
     }
     //void ComprobarHitLateral()
@@ -91,11 +91,13 @@ public class LlamaAnimal : MonoBehaviour
         if (jugador == null || prefabProyectilLlama == null) return;
 
         Vector2 dir = (jugador.transform.position - transform.position).normalized;
+        AudioManager.Instance.PlaySound(AudioManager.Instance.enemigoDisparo);
         GameObject proyectil = Instantiate(prefabProyectilLlama, transform.position, Quaternion.identity);
         proyectil.GetComponent<ProyectilLlama>().SetDireccion(dir);
     }
     public void Muerte()
     {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
         Destroy(gameObject);
     }
 }

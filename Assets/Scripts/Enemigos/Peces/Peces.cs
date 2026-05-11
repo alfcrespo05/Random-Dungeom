@@ -39,7 +39,7 @@ public class Peces : MonoBehaviour
         }
 
         timerVida -= Time.deltaTime;
-        if (timerVida <= 0f) { Destroy(gameObject); return; }
+        if (timerVida <= 0f) { Muerte(); return; }
 
         if (!llegando)
         {
@@ -70,6 +70,7 @@ public class Peces : MonoBehaviour
         {
             if (!pc.esInvulnerable)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= 1;
                 pc.StartCoroutine(pc.Invulnerabilidad());
             }
@@ -79,6 +80,7 @@ public class Peces : MonoBehaviour
 
     public void Muerte()
     {
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
         Destroy(gameObject);
     }
 }

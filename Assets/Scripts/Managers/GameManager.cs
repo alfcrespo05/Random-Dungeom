@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
     public bool win = false;
     public int estrella = 0;
+    private bool tiempoGuardado = false;
+    bool pausa = false;
 
     [Header("Corazones")]
     [SerializeField] private GameObject vida1;
@@ -55,8 +57,9 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Time.timeScale = 0;
-        botonPausa.SetActive(true);
+        if (Time.timeScale != 0) Time.timeScale = 0;
+
+            botonPausa.SetActive(true);
         botonPlay.SetActive(true);
         menuPausa.SetActive(false);
         menuAjustes.SetActive(false);
@@ -117,6 +120,12 @@ public class GameManager : MonoBehaviour
 
         estaminaLeftText.color = puedePagarAlguna ? Color.black : Color.red;
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(pausa == false) Pausa();
+            else Reanudar();
+        }
+        
         if (Time.timeScale == 0) return; // no cuenta si está pausado
 
         tiempo += Time.deltaTime;
@@ -126,26 +135,14 @@ public class GameManager : MonoBehaviour
 
         timeLeftText.text = tiempoFormato;
         TiempoText.text = tiempoFormato;
-      
+
 
         // Mejor tiempo
-        float mejorTiempo = PlayerPrefs.GetFloat("MejorTiempo", float.MaxValue);
-        if (mejorTiempo == float.MaxValue)
-            MejorTiempoText.text = "Mejor: --:--";
-        else
-        {
-            int mMin = Mathf.FloorToInt(mejorTiempo / 60f);
-            int mSec = Mathf.FloorToInt(mejorTiempo % 60f);
-            MejorTiempoText.text = string.Format("Mejor: {0:00}:{1:00}", mMin, mSec);
-        }
+        MejorTiempoText.text = "Mejor: " + GameDataManager.Instance.GetMejorTiempoFormato();
 
-        timeLeftText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        EstrellastText.text = $"Estrellas: " + estrella + "/3";
-        TiempoText.text = timeLeftText.text;
 
-      
 
-     
+
     }
     private void FixedUpdate()
     {
@@ -167,25 +164,22 @@ public class GameManager : MonoBehaviour
     }
     public void WinLose()
     {
-        if (gameOver)
+        if (gameOver && !tiempoGuardado)
         {
+            tiempoGuardado = true;
             Derrota.SetActive(true);
             Victoria.SetActive(false);
             Time.timeScale = 0;
+            AudioManager.Instance.PlayMusica(AudioManager.Instance.musicaDerrota);
         }
-        if (win)
+        if (win && !tiempoGuardado)
         {
+            tiempoGuardado = true;
             Derrota.SetActive(false);
             Victoria.SetActive(true);
             Time.timeScale = 0;
-
-            // Guarda el mejor tiempo
-            float mejorTiempo = PlayerPrefs.GetFloat("MejorTiempo", float.MaxValue);
-            if (tiempo < mejorTiempo)
-            {
-                PlayerPrefs.SetFloat("MejorTiempo", tiempo);
-                PlayerPrefs.Save();
-            }
+            GameDataManager.Instance.IntentarGuardarMejorTiempo(tiempo);
+            AudioManager.Instance.PlayMusica(AudioManager.Instance.musicaVictoria);
         }
     }
     public void ContarVidas()
@@ -393,7 +387,7 @@ public class GameManager : MonoBehaviour
         menuPausa.SetActive(true);
         menuAjustes.SetActive(false);
         MoverCartas = false;
-
+        pausa = true;
     }
     public void Play()
     {
@@ -414,6 +408,7 @@ public class GameManager : MonoBehaviour
         botonPausa.SetActive(true);
         menuPausa.SetActive(false);
         menuAjustes.SetActive(false);
+        pausa = false;
     }
     public void Reiniciar()
     {
@@ -425,7 +420,8 @@ public class GameManager : MonoBehaviour
     }
     public void Salir()
     {
-        SceneManager.LoadScene(0);
+        Application.Quit();
+        Debug.Log("Saliendo...");
     }
     public void Ajustes()
     {

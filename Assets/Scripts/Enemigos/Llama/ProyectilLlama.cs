@@ -35,6 +35,7 @@ public class ProyectilLlama : MonoBehaviour
 
             if (!pc.esInvulnerable)
             {
+                AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= 1;
                 pc.StartCoroutine(pc.Invulnerabilidad());
             }
@@ -56,6 +57,7 @@ public class ProyectilLlama : MonoBehaviour
         if (prc != null)
         {
             // Empuje siempre, daño solo si no es invulnerable
+            AudioManager.Instance.PlaySound(AudioManager.Instance.balaColision);
             Rigidbody2D rbproyectil = other.GetComponent<Rigidbody2D>();
             if (rbproyectil != null) prc.Muerte();
 
@@ -67,6 +69,7 @@ public class ProyectilLlama : MonoBehaviour
         // Golpea bloque o enemigo
         if (((1 << other.gameObject.layer) & (sueloLayer | enemigoLayer)) != 0)
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.balaColision);
             EmpujarJugadorCercano();
             Destroy(gameObject);
             return;
@@ -93,6 +96,7 @@ public class ProyectilLlama : MonoBehaviour
     public void Muerte()
     {
         Destroy(gameObject);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.muerteEnemigo);
     }
 }
 

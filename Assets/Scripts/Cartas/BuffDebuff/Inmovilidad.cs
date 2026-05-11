@@ -30,8 +30,10 @@ public class Inmovilidad : MonoBehaviour
     void OnMouseDown()
     {
         if (!GameManager.Instance.MoverCartas || Time.timeScale == 1) return;
-        SierraController sirc = FindFirstObjectByType<SierraController>(); sirc.Subrayar();
-        SlimeController slimeController = FindFirstObjectByType<SlimeController>(); slimeController.Subrayar();
+        SierraController[] sierras = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierras) sierra.Subrayar();
+        SlimeController[] slimes = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
+        foreach (SlimeController slime in slimes) slime.Subrayar();
         PlayerController playerController = FindFirstObjectByType<PlayerController>(); playerController.Subrayar();
         arrastrando = true;
         rb.bodyType = RigidbodyType2D.Kinematic;
@@ -40,8 +42,10 @@ public class Inmovilidad : MonoBehaviour
 
     void OnMouseUp()
     {
-        SierraController sirc = FindFirstObjectByType<SierraController>(); sirc.NoSubrayar();
-        SlimeController slimeController = FindFirstObjectByType<SlimeController>(); slimeController.NoSubrayar();
+        SierraController[] sierrasc = FindObjectsByType<SierraController>(FindObjectsSortMode.None);
+        foreach (SierraController sierra in sierrasc) sierra.NoSubrayar();
+        SlimeController[] slimesc = FindObjectsByType<SlimeController>(FindObjectsSortMode.None);
+        foreach (SlimeController slime in slimesc) slime.NoSubrayar();
         PlayerController playerController = FindFirstObjectByType<PlayerController>(); playerController.NoSubrayar();
         if (!arrastrando) return;
         arrastrando = false;

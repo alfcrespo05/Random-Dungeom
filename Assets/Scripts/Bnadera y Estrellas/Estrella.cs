@@ -18,6 +18,7 @@ public class Estrella : MonoBehaviour
         PlayerController pc = other.GetComponent<PlayerController>();
         if (pc != null)
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.estrella);
             GameManager.Instance.estrella += 1;
             Destroy(gameObject);
 

@@ -52,12 +52,14 @@ public class SlimeController : MonoBehaviour
     private bool persiguiendo = false;
     private Transform jugador;
 
+    private Animator anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>(); 
         sr = GetComponent<SpriteRenderer>(); 
         puntoOrigen = transform.position;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -107,8 +109,9 @@ public class SlimeController : MonoBehaviour
         if (transform.position.x >= puntoOrigen.x + distanciaBloque)
             direccion = -1f;
         else if (transform.position.x <= puntoOrigen.x - distanciaBloque)
-            direccion = 1f;
-
+            direccion = 1;
+        transform.localScale = new Vector3(-direccion * 0.5f, 0.5f, 1);
+        anim.SetBool("Caminar", true);
         rb.linearVelocity = new Vector2(direccion * velocidadPatrulla, rb.linearVelocity.y);
         //Debug.Log("Patrullando Slime");
     }
@@ -125,6 +128,10 @@ public class SlimeController : MonoBehaviour
         if (dirX == -1f && !sueloIzquierda) dirX = 0f;
 
         rb.linearVelocity = new Vector2(dirX * velocidadPersecucion, rb.linearVelocity.y);
+
+        anim.SetBool("Caminar", dirX != 0);
+        if (dirX != 0)
+            transform.localScale = new Vector3(-dirX * 0.5f, 0.5f, 1);
     }
 
     void ComprobarHit()

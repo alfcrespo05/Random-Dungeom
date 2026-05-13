@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    [SerializeField] private Color colorNormal = Color.black;
+    [SerializeField] private Color colorNormal = Color.white;
+
+    private Animator anim;
     private void Awake()
     {
         esInvulnerable = true;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         dobleSalto = false;
     }
 
@@ -38,15 +41,18 @@ public class PlayerController : MonoBehaviour
         // Solo resetea cuando acaba de aterrizar
         if (isGrounded && !estabaEnSuelo)
             saltosRestantes = dobleSalto ? 2 : 1;
-
         estabaEnSuelo = isGrounded;
+
+        anim.SetBool("Saltar", !isGrounded);
+
         if (Time.timeScale == 1)
         {
             if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
             {
-                AudioManager.Instance.PlaySound(AudioManager.Instance.Salto);
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 saltosRestantes--;
+                anim.SetTrigger("Saltar"); // trigger en vez de bool
+                AudioManager.Instance.PlaySound(AudioManager.Instance.Salto);
             }
         }
         else return;
@@ -59,6 +65,15 @@ public class PlayerController : MonoBehaviour
         if (Time.timeScale == 1)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
+
+            anim.SetBool("Caminar", horizontal != 0);
+
+            // Cambia la orientación según la dirección
+            if (horizontal > 0)
+                transform.localScale = new Vector3(0.5f, 0.5f, 1); // mira derecha
+            else if (horizontal < 0)
+                transform.localScale = new Vector3(-0.5f, 0.5f, 1); // mira izquierda
+
             if (horizontal != 0)
             {
                 rb.AddForce(new Vector2(horizontal * velocidad, 0));

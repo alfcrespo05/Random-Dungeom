@@ -14,21 +14,21 @@ public class BancoSilla : MonoBehaviour
     {
         
     }
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
-        SlimeController slc = other.GetComponent<SlimeController>();
+        SlimeController slc = other.gameObject.GetComponent<SlimeController>();
         if (slc != null)
         {
             slc.Muerte();
             return;
         }
-        LlamaAnimal La = other.GetComponent<LlamaAnimal>();
+        LlamaAnimal La = other.gameObject.GetComponent<LlamaAnimal>();
         if (La != null)
         {
             La.Muerte();
             return;
         }
-        SierraController sic = other.GetComponent<SierraController>();
+        SierraController sic = other.gameObject.GetComponent<SierraController>();
         if (sic != null && sic.patrullando == true)
         {
             Muerte();

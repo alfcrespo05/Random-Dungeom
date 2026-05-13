@@ -55,9 +55,11 @@ public class Telefono : MonoBehaviour
         {
             case 1:
                 pajaro.SetObjetivo(TipoObjetivo.Jugador);
+                Muerte();
                 break;
             case 2:
                 pajaro.SetObjetivo(TipoObjetivo.Enemigo);
+                Muerte();
                 break;
         }
     }

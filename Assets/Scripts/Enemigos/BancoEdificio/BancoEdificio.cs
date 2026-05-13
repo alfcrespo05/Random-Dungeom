@@ -48,10 +48,12 @@ public class BancoEdificio : MonoBehaviour
             case 1:
                 GameManager.Instance.vidas -= 2;
                 pc.VelocidadBuff();
+                Muerte();
                 break;
             case 2:
                 GameManager.Instance.vidas += 2;
                 pc.Lentitud();
+                Muerte();
                 break;
         }
     }

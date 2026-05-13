@@ -361,7 +361,7 @@ public class GameManager : MonoBehaviour
     {
         if (vidas != 0)
         {
-            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4.37f, 0), Quaternion.identity);
+            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4.208f, 0), Quaternion.identity);
         }
         else GameOver();
     }

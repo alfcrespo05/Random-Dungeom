@@ -6,9 +6,9 @@ public class SueloController : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D materialNormal;
     [SerializeField] private PhysicsMaterial2D materialHielo;
     [SerializeField] private PhysicsMaterial2D materialPiedra;
-    [SerializeField] private Color colorNormalTierra = Color.brown;
-    [SerializeField] private Color colorNormalRoca = Color.gray2;
-    [SerializeField] private Color colorNormalMadera = Color.saddleBrown;
+    [SerializeField] private Sprite spriteTierra;
+    [SerializeField] private Sprite spriteRoca;
+    [SerializeField] private Sprite spriteMadera;
     [SerializeField] private Color colorHielo = new Color(0.5f, 0.8f, 1f);
     [SerializeField] private Color colorPiedra = new Color(0.31f, 0.27f, 0.25f);
     [SerializeField] private Color colorFuego = new Color(1f, 0.14f, 0f);
@@ -68,9 +68,9 @@ public class SueloController : MonoBehaviour
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
         posicionOriginal = transform.position;
-        if(esTierra == true) sr.color = colorNormalTierra;
-        if (esRoca == true) sr.color = colorNormalRoca;
-        if (esMadera == true) sr.color = colorNormalMadera;
+        if (esTierra) sr.sprite = spriteTierra;
+        if (esRoca) sr.sprite = spriteRoca;
+        if (esMadera) sr.sprite = spriteMadera;
     }
 
     void Update()
@@ -180,9 +180,9 @@ public class SueloController : MonoBehaviour
     public void CambiarANormal()
     {
         col.sharedMaterial = materialNormal;
-        if (esTierra == true) sr.color = colorNormalTierra;
-        if (esRoca == true) sr.color = colorNormalRoca;
-        if (esMadera == true) sr.color = colorNormalMadera;
+        if (esTierra) sr.sprite = spriteTierra;
+        if (esRoca) sr.sprite = spriteRoca;
+        if (esMadera) sr.sprite = spriteMadera;
         esPiedra = false;
 
         if (spritePinchos != null)
@@ -208,7 +208,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(3, 4);
+        int prob = UnityEngine.Random.Range(2, 3);
         switch (prob)
         {
             case 1:
@@ -347,14 +347,15 @@ public class SueloController : MonoBehaviour
     public void Subrayar()
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
+        if (sr != null) sr.color = new Color(1f, 1f, 0f, 0.7f);
     }
     public void NoSubrayar()
     {
         col.sharedMaterial = materialNormal;
-        if (esTierra == true) sr.color = colorNormalTierra;
-        if (esRoca == true) sr.color = colorNormalRoca;
-        if (esMadera == true) sr.color = colorNormalMadera;
+        sr.color = Color.white;
+        if (esTierra == true) sr.sprite = spriteTierra;
+        if (esRoca == true) sr.sprite = spriteRoca;
+        if (esMadera == true) sr.sprite = spriteMadera;
     }
 
 }

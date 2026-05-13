@@ -110,7 +110,7 @@ public class SlimeController : MonoBehaviour
             direccion = 1f;
 
         rb.linearVelocity = new Vector2(direccion * velocidadPatrulla, rb.linearVelocity.y);
-        Debug.Log("Patrullando Slime");
+        //Debug.Log("Patrullando Slime");
     }
 
     void Perseguir()
@@ -261,12 +261,10 @@ public class SlimeController : MonoBehaviour
     }
     public void Subrayar()
     {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null) sr.color = new Color(1f, 0.84f, 0f, 0.49f);
     }
     public void NoSubrayar()
     {
-        col.sharedMaterial = materialNormal;
         if(aire == true) sr.color = colorAire;
         else sr.color = colorNormal;
     }

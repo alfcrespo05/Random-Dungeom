@@ -144,6 +144,7 @@ MonoBehaviour:
   colorNormal: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
   materialHielo: {fileID: 6200000, guid: 84fea4a734f7fe14b885bf70f2063ffe, type: 2}
+  patrullando: 0
   velocidadPatrulla: 1
   distanciaBloque: 1
   empuje: 5
@@ -192,9 +193,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7551589020618167254}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0

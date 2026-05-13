@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private bool dobleSalto = false;
     private int saltosRestantes = 0;
     private bool estabaEnSuelo = false;
-    public bool esInvulnerable = false;
+    public bool esInvulnerable;
 
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
@@ -20,7 +20,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     [SerializeField] private Color colorNormal = Color.black;
-
+    private void Awake()
+    {
+        esInvulnerable = true;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         else return;
+        
         Movimiento();
     }
 

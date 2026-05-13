@@ -38,6 +38,7 @@ public class Peces : MonoBehaviour
             return;
         }
 
+
         timerVida -= Time.deltaTime;
         if (timerVida <= 0f) { Muerte(); return; }
 
@@ -73,6 +74,7 @@ public class Peces : MonoBehaviour
                 AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= 1;
                 pc.StartCoroutine(pc.Invulnerabilidad());
+                timerVida = 10f;
             }
             return;
         }

@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         vidaPiedram2.SetActive(false);
 
       
-        estamina = UnityEngine.Random.Range(15, 101); //15, 101
+        estamina = UnityEngine.Random.Range(16, 109);
         EstaminaRestante();
         SpawnJugador(); // spawna el jugador al inicio
     }
@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
 
         // Mejor tiempo
         MejorTiempoText.text = "Mejor: " + GameDataManager.Instance.GetMejorTiempoFormato();
-
+        EstrellastText.text = "Estrellas: " + estrella + "/0";
 
 
 
@@ -362,7 +362,6 @@ public class GameManager : MonoBehaviour
         if (vidas != 0)
         {
             GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4.37f, 0), Quaternion.identity);
-
         }
         else GameOver();
     }
@@ -376,8 +375,6 @@ public class GameManager : MonoBehaviour
     public void AñadirPiedra()
     {
         vidas += 4;
-       
-
     }
     public void Pausa()
     {
@@ -398,6 +395,8 @@ public class GameManager : MonoBehaviour
         botonPlay.SetActive(false);
         menuPausa.SetActive(false);
         menuAjustes.SetActive(false);
+        PlayerController pc = FindFirstObjectByType<PlayerController>();
+        pc.StartCoroutine(pc.Invulnerabilidad());
     }
     public void Reanudar()
     {

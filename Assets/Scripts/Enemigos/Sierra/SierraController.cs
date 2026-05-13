@@ -15,7 +15,7 @@ public class SierraController : MonoBehaviour
     [SerializeField] private PhysicsMaterial2D materialHielo;
 
     [Header("Patrulla")]
-    private bool patrullando = false;
+    public bool patrullando = false;
     [SerializeField] private float velocidadPatrulla = 2f;
     [SerializeField] private float distanciaBloque = 2f; // mitad del ancho del bloque
     private Vector3 puntoOrigen; // centro del bloque donde nació
@@ -66,6 +66,33 @@ public class SierraController : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        SlimeController slc = other.gameObject.GetComponent<SlimeController>();
+        if (slc != null)
+        {
+            slc.Muerte();
+            return;
+        }
+        LlamaAnimal La = other.gameObject.GetComponent<LlamaAnimal>();
+        if (La != null)
+        {
+            La.Muerte();
+            return;
+        }
+        BancoEdificio be = other.gameObject.GetComponent<BancoEdificio>();
+        if (be != null)
+        {
+            Muerte();
+            return;
+        }
+        Telefono te = other.gameObject.GetComponent<Telefono>();
+        if (te != null)
+        {
+            te.Muerte();
+            return;
         }
     }
 

@@ -49,8 +49,8 @@ public class SueloController : MonoBehaviour
     [SerializeField] private float alturaSueloPeces = 1f;
     [SerializeField] private GameObject prefabBancoEdificio;
     [SerializeField] private float alturaSueloBancoEdificio = 0.25f;
-    //[SerializeField] private GameObject prefabBancoSilla;
-    //[SerializeField] private float alturaSueloBancoSilla = 0.5f;
+    [SerializeField] private GameObject prefabBancoSilla;
+    [SerializeField] private float alturaSueloBancoSilla = 0.5f;
 
 
     private Collider2D col;
@@ -85,7 +85,7 @@ public class SueloController : MonoBehaviour
                 if (objetivo != null)
                 {
                     PlayerController pc = objetivo.GetComponent<PlayerController>();
-                    if (pc != null && !pc.esInvulnerable)
+                    if (pc != null && !pc.esInvulnerable == true)
                     {
                         AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                         pc.StartCoroutine(pc.Invulnerabilidad());
@@ -95,6 +95,8 @@ public class SueloController : MonoBehaviour
                     if (slime != null) slime.Muerte();
                     SierraController sierra = objetivo.GetComponent<SierraController>();
                     if (sierra != null) sierra.Muerte();
+                    LlamaAnimal llama = objetivo.GetComponent<LlamaAnimal>();
+                    if (llama != null) llama.Muerte();
                 }
 
                 timerPinchos += Time.deltaTime;
@@ -143,21 +145,20 @@ public class SueloController : MonoBehaviour
                     if (sierra != null) sierra.Muerte();
                 }
             }
-            if(Time.timeScale == 1)
+
+            if (fragilFuego)
             {
-                if (fragilFuego == true)
+                // Madera cuenta siempre, otros solo si hay alguien encima
+                if (esMadera || objetivoFuego != null)
+                    contandoFragilFuego = true;
+
+                if (contandoFragilFuego)
                 {
-                    if (objetivoFuego != null && !contandoFragilFuego)
-                        contandoFragilFuego = true;
-                    if (contandoFragilFuego)
-                    {
-                        timerFragilFuego += Time.deltaTime;
-                        if (timerFragilFuego >= tiempoFragilFuego)
-                            Destroy(gameObject);
-                    }
+                    timerFragilFuego += Time.deltaTime;
+                    if (timerFragilFuego >= tiempoFragilFuego)
+                        Destroy(gameObject);
                 }
             }
-            
         }
     }
 
@@ -207,7 +208,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(1, 2);
+        int prob = UnityEngine.Random.Range(3, 4);
         switch (prob)
         {
             case 1:
@@ -215,10 +216,11 @@ public class SueloController : MonoBehaviour
                 sr.color = colorFuego;
                 esFuego = true;
                 fuegoActivos = true;
-                if (esMadera) fragilFuego = true; // madera empieza a contar inmediatamente
+                if (esMadera) fragilFuego = true;
                 if (spriteFuego != null)
                     spriteFuego.SetActive(true);
                 break;
+               
             case 2:
 
                 SueloController[] todosLosBloques = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
@@ -270,7 +272,7 @@ public class SueloController : MonoBehaviour
     }
     public void Banco()
     {
-        int prob = UnityEngine.Random.Range(1, 2);
+        int prob = UnityEngine.Random.Range(3, 4);
         switch (prob)
         {
             case 1:
@@ -321,8 +323,24 @@ public class SueloController : MonoBehaviour
              
                 break;
             case 3:
-                //posicionOriginal += Vector3.up * alturaSueloBancoSilla;
-                //GameObject BancoSilla = Instantiate(prefabBancoSilla, posicionOriginal, Quaternion.identity);
+                SueloController[] todosLosBloques3 = FindObjectsByType<SueloController>(FindObjectsSortMode.None);
+                SueloController bloqueHorizontalMasCercano3 = null;
+                float distanciaMinima3 = float.MaxValue;
+                foreach (SueloController bloque in todosLosBloques3)
+                {
+                    if (!bloque.esHorizontal) continue;
+                    float distancia = Vector3.Distance(transform.position, bloque.transform.position);
+                    if (distancia < distanciaMinima3) 
+                    {
+                        distanciaMinima3 = distancia; 
+                        bloqueHorizontalMasCercano3 = bloque;
+                    }
+                }
+                if (bloqueHorizontalMasCercano3 != null)
+                {
+                    Vector3 spawnPos = bloqueHorizontalMasCercano3.transform.position + Vector3.up * alturaSueloBancoSilla;
+                    Instantiate(prefabBancoSilla, spawnPos, Quaternion.identity);
+                }
                 break;
         }
     }

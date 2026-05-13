@@ -108,7 +108,7 @@ MonoBehaviour:
   papeleraLayer:
     serializedVersion: 2
     m_Bits: 2048
-  costeEstamina: 10
+  costeEstamina: 20
   posicionOriginal: {x: 0, y: 0}
 --- !u!61 &5810010765973855165
 BoxCollider2D:

@@ -24,6 +24,8 @@ public class MazoManager : MonoBehaviour
         int indicePolisemica = Random.Range(0, prefabsPolisemicas.Length);
         GameObject polisemica = prefabsPolisemicas[indicePolisemica];
 
+
+
         // Añade la otra polisemica al mazo normal
         for (int i = 0; i < prefabsPolisemicas.Length; i++)
         {
@@ -59,6 +61,16 @@ public class MazoManager : MonoBehaviour
 
             if (i != 0)
                 carta.GetComponent<Collider2D>().enabled = false;
+
+            //  Aquí, marca la primera carta como no tireable a papelera
+            if (i == 0)
+            {
+                Llama lc = carta.GetComponent<Llama>();
+                if (lc != null) lc.esPrimera = true;
+
+                Banco bc = carta.GetComponent<Banco>();
+                if (bc != null) bc.esPrimera = true;
+            }
         }
     }
 

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027e9b51f15dc9149bb4076089080dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  costeEstamina: 15
+  costeEstamina: 16
   posicionOriginal: {x: 0, y: 0}
   papeleraLayer:
     serializedVersion: 2

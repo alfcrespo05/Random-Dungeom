@@ -140,6 +140,7 @@ MonoBehaviour:
     m_Bits: 64
   alturaSueloPajaro: 10
   prefabPajaro: {fileID: 6006863487133386261, guid: 8db801674915c844f90fdfee77508734, type: 3}
+  materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
 --- !u!61 &2430127093954956212
 BoxCollider2D:
   m_ObjectHideFlags: 0

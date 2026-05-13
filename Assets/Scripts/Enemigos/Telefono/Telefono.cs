@@ -7,6 +7,7 @@ public class Telefono : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float alturaSueloPajaro = 1.5f;
     [SerializeField] private GameObject prefabPajaro;
+    [SerializeField] private PhysicsMaterial2D materialNormal;
 
     private bool llamadaRealizada = false;
     private Collider2D col;
@@ -31,15 +32,15 @@ public class Telefono : MonoBehaviour
         Collider2D jugadorLateral = Physics2D.OverlapBox(transform.position, hitCheckLateralSize, 0f, playerLayer);
         if (jugadorLateral != null)
         {
-            if (jugadorLateral.transform.position.y < transform.position.y + 0.3f)
-            {
+           
+            
                 PlayerController pc = jugadorLateral.GetComponent<PlayerController>();
                 if (pc != null)
                 {
                     llamadaRealizada = true;
                     Llamada();
                 }
-            }
+            
         }
     }
 

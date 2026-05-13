@@ -139,6 +139,8 @@ MonoBehaviour:
   alturaSueloPeces: 2
   prefabBancoEdificio: {fileID: 6649955161524459598, guid: feb52285f5979e148956bb200415a783, type: 3}
   alturaSueloBancoEdificio: 0.25
+  prefabBancoSilla: {fileID: 8325000185770875290, guid: c5d1ffa2511b6e44488242c75e9e35f3, type: 3}
+  alturaSueloBancoSilla: 0.4
   tiempoFragil: 2
 --- !u!61 &5215704831637972476
 BoxCollider2D:

@@ -76,8 +76,7 @@ public class Piedra : MonoBehaviour
             Collider2D corazones = Physics2D.OverlapPoint(transform.position, UILayer);
             if (corazones != null)
             {
-                // No necesitas GetComponent<GameManager> en el objeto
-                // simplemente llama al Instance directamente
+              
                 GameManager.Instance.estamina -= costeEstamina;
                 GameManager.Instance.AñadirPiedra();
                 FindFirstObjectByType<MazoManager>().CartaUsada();

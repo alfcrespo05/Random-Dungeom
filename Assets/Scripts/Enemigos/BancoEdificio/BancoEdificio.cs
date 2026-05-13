@@ -5,6 +5,7 @@ public class BancoEdificio : MonoBehaviour
     [Header("Hit Check")]
     [SerializeField] private Vector2 hitCheckLateralSize = new Vector2(1f, 0.8f);
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private PhysicsMaterial2D materialNormal;
 
     private bool transferenciaRealizada = false;
     private Collider2D col;
@@ -28,15 +29,15 @@ public class BancoEdificio : MonoBehaviour
         Collider2D jugadorLateral = Physics2D.OverlapBox(transform.position, hitCheckLateralSize, 0f, playerLayer);
         if (jugadorLateral != null)
         {
-            if (jugadorLateral.transform.position.y < transform.position.y + 0.3f)
-            {
+           
+            
                 PlayerController pc = jugadorLateral.GetComponent<PlayerController>();
                 if (pc != null)
                 {
                     transferenciaRealizada = true;
                     Transferencia(pc);
                 }
-            }
+            
         }
     }
     public void Transferencia(PlayerController pc)

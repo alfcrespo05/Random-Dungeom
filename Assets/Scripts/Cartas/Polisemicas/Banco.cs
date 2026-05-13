@@ -9,6 +9,7 @@ public class Banco : MonoBehaviour
     public int costeEstamina = 15;
     public Vector2 posicionOriginal;
     [SerializeField] private LayerMask papeleraLayer;
+    public bool esPrimera = false;
     void Start()
     {
         cam = Camera.main;
@@ -64,7 +65,7 @@ public class Banco : MonoBehaviour
         if (papelera != null)
         {
             Papelera papelerac = papelera.GetComponent<Papelera>();
-            if (papelera != null)
+            if (papelera != null && !esPrimera)
             {
                 GameManager.Instance.estamina += (costeEstamina / 2);
                 FindFirstObjectByType<MazoManager>().CartaUsada();

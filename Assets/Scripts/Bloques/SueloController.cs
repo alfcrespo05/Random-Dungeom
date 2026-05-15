@@ -208,7 +208,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(2, 3);
+        int prob = UnityEngine.Random.Range(3, 4);
         switch (prob)
         {
             case 1:

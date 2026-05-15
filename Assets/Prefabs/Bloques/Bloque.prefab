@@ -134,7 +134,7 @@ MonoBehaviour:
   prefabLlamaAnimal: {fileID: 7031388909776407297, guid: 6e5e1205563f40547ae3576c540532f4, type: 3}
   alturaSueloLlama: 0.4
   prefabTelefono: {fileID: 3757724802506496069, guid: 2c66cd98c76510349b4a604b0954f03f, type: 3}
-  alturaSueloTelefono: 0.3
+  alturaSueloTelefono: 0.2
   prefabPeces: {fileID: 4688034149771255471, guid: 34bda9418941f8c4cb6ff5ce8f361e11, type: 3}
   alturaSueloPeces: 0.9
   prefabBancoEdificio: {fileID: 6649955161524459598, guid: feb52285f5979e148956bb200415a783, type: 3}

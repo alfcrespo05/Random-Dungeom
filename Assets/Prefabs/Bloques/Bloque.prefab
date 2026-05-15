@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   esRoca: 0
   esMadera: 1
   spritePinchos: {fileID: 0}
-  pinchosCheckSize: {x: 1.4, y: 0.2}
+  pinchosCheckSize: {x: 1.3, y: 0.2}
   pinchosCheck: {fileID: 0}
   esHorizontal: 1
   tiempoDestruccion: 2
@@ -124,7 +124,7 @@ MonoBehaviour:
     m_Bits: 192
   tiempoDestruccionFuego: 2
   spriteFuego: {fileID: 0}
-  fuegoCheckSize: {x: 1.4, y: 0.2}
+  fuegoCheckSize: {x: 1.3, y: 0.2}
   fuegoCheck: {fileID: 0}
   objetivoLayerFuego:
     serializedVersion: 2
@@ -136,11 +136,11 @@ MonoBehaviour:
   prefabTelefono: {fileID: 3757724802506496069, guid: 2c66cd98c76510349b4a604b0954f03f, type: 3}
   alturaSueloTelefono: 0.3
   prefabPeces: {fileID: 4688034149771255471, guid: 34bda9418941f8c4cb6ff5ce8f361e11, type: 3}
-  alturaSueloPeces: 2
+  alturaSueloPeces: 0.9
   prefabBancoEdificio: {fileID: 6649955161524459598, guid: feb52285f5979e148956bb200415a783, type: 3}
-  alturaSueloBancoEdificio: 0.25
+  alturaSueloBancoEdificio: 0.4
   prefabBancoSilla: {fileID: 8325000185770875290, guid: c5d1ffa2511b6e44488242c75e9e35f3, type: 3}
-  alturaSueloBancoSilla: 0.4
+  alturaSueloBancoSilla: 0.3
   tiempoFragil: 2
 --- !u!61 &5215704831637972476
 BoxCollider2D:
@@ -176,7 +176,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0014731586, y: -0.12185584}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}

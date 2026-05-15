@@ -11,11 +11,13 @@ public class Peces : MonoBehaviour
     private float timerEspera = 0f;
     [SerializeField] private float tiempoEspera = 1f;
     [SerializeField] private float timerVida = 10f;
+    private Vector2 lastPosition;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         FijarObjetivo();
+        lastPosition = transform.position;
     }
 
     void FijarObjetivo()
@@ -60,6 +62,15 @@ public class Peces : MonoBehaviour
             if (timerEspera <= 0f)
                 FijarObjetivo();
         }
+        Vector2 moveDirection = (Vector2)transform.position - lastPosition;
+        if (moveDirection != Vector2.zero)
+        {
+            // Calcular ángulo y rotar
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
+        lastPosition = transform.position;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -74,7 +85,7 @@ public class Peces : MonoBehaviour
                 AudioManager.Instance.PlaySound(AudioManager.Instance.dañoSound);
                 GameManager.Instance.vidas -= 1;
                 pc.StartCoroutine(pc.Invulnerabilidad());
-                timerVida = 10f;
+                timerVida = 7f;
             }
             return;
         }

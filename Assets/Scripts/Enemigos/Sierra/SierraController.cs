@@ -8,9 +8,10 @@ public class SierraController : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private SpriteRenderer sr;
 
+
     [Header("Hielo")]
-    [SerializeField] private Color colorHielo = new Color(0.5f, 0.8f, 1f);
-    [SerializeField] private Color colorNormal = Color.gray;
+    [SerializeField] private Sprite sierraHielo;
+    [SerializeField] private Sprite Sierra;
     [SerializeField] private PhysicsMaterial2D materialNormal;
     [SerializeField] private PhysicsMaterial2D materialHielo;
 
@@ -22,6 +23,7 @@ public class SierraController : MonoBehaviour
     private float direccion = 1f;
 
     [Header("Inmovil")]
+    [SerializeField] private Sprite sierraQuieta;
     [SerializeField] private float empuje = 10f;
     [SerializeField] private float radioEmpuje = 1.5f;
     private bool inmovilizado = false;
@@ -30,11 +32,13 @@ public class SierraController : MonoBehaviour
     private bool helado = false;
     private Rigidbody2D rb;
 
+    private Animator anim;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
         puntoOrigen = transform.position;
         CambiarANormal();
     }
@@ -116,15 +120,20 @@ public class SierraController : MonoBehaviour
     public void CambiarAHielo()
     {
         helado = true;
+        anim.enabled = false;
         col.sharedMaterial = materialHielo;
-        sr.color = colorHielo;
+        sr.sprite = sierraHielo;
+        gameObject.layer = LayerMask.NameToLayer("Suelo");
+
     }
 
     public void CambiarANormal()
     {
         helado = false;
+        anim.enabled = true;
         col.sharedMaterial = materialNormal;
-        sr.color = colorNormal;
+        sr.sprite = Sierra;
+        gameObject.layer = LayerMask.NameToLayer("Enemigo");
     }
     public void IniciarPatrulla()
     {
@@ -142,8 +151,11 @@ public class SierraController : MonoBehaviour
     }
     public void InmovilidadBuff()
     {
-        Daño = 1;
+        gameObject.layer = LayerMask.NameToLayer("Enemigo");
         inmovilizado = true;
+        anim.enabled = false;
+        sr.sprite = sierraQuieta;
+        Daño = 1;
     }
     public void Subrayar()
     {
@@ -152,9 +164,19 @@ public class SierraController : MonoBehaviour
     }
     public void NoSubrayar()
     {
-        col.sharedMaterial = materialNormal;
-        if (helado == true) sr.color = colorHielo;
-        else sr.color = colorNormal;
+        
+        sr.color = Color.white;
+        if (helado)
+        {
+            sr.sprite = sierraHielo; 
+            col.sharedMaterial = materialHielo;
+        }  
+        else if (inmovilizado)
+        {
+            sr.sprite = sierraQuieta; 
+            col.sharedMaterial = materialNormal;
+        }
+        else sr.sprite = Sierra; col.sharedMaterial = materialNormal;
     }
     public void Muerte()
     {

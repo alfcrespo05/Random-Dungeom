@@ -6,7 +6,8 @@ public class FondoController : MonoBehaviour
     [SerializeField] private float intervaloCambio = 10f;
     [SerializeField] private LayerMask objetivosLayer; // Player + Enemigos que se mueven
     [SerializeField] private Color colorNormal = Color.white;
-
+    [SerializeField] private Sprite Fondo;
+    [SerializeField] private Sprite fondoNubes;
     private SpriteRenderer sr;
 
     private bool aireActivo = false;
@@ -57,13 +58,15 @@ public class FondoController : MonoBehaviour
     }
     public void NoSubrayar()
     {
-       
         sr.color = colorNormal;
+        if (aireActivo) sr.sprite = fondoNubes;
+        else sr.sprite = Fondo;
     }
     public void CambiarAAire()
     {
         aireActivo = true;
         timer = 0f;
         direccion = 1f;
+        sr.sprite = fondoNubes;
     }
 }

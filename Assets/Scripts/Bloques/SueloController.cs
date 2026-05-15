@@ -272,7 +272,7 @@ public class SueloController : MonoBehaviour
     }
     public void Banco()
     {
-        int prob = UnityEngine.Random.Range(3, 4);
+        int prob = UnityEngine.Random.Range(1, 2);
         switch (prob)
         {
             case 1:

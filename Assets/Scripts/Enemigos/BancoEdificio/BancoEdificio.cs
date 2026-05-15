@@ -62,7 +62,27 @@ public class BancoEdificio : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireCube(transform.position, hitCheckLateralSize);
     }
-
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        SlimeController slc = other.gameObject.GetComponent<SlimeController>();
+        if (slc != null)
+        {
+            Muerte();
+            return;
+        }
+        LlamaAnimal La = other.gameObject.GetComponent<LlamaAnimal>();
+        if (La != null)
+        {
+            Muerte();
+            return;
+        }
+        Telefono te = other.gameObject.GetComponent<Telefono>();
+        if (te != null)
+        {
+            te.Muerte();
+            return;
+        }
+    }
     public void Muerte()
     {
         Destroy(gameObject);

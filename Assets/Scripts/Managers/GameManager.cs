@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -361,7 +362,7 @@ public class GameManager : MonoBehaviour
     {
         if (vidas != 0)
         {
-            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4.208f, 0), Quaternion.identity);
+            GameObject nuevoJugador = Instantiate(prefabJugador, new Vector3(-7.4f, -4f, 0), Quaternion.identity);
         }
         else GameOver();
     }

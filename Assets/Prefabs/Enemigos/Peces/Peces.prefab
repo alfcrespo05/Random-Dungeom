@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2648922477084188280}
   - component: {fileID: 8099800812825420924}
   - component: {fileID: 429639674253015193}
+  - component: {fileID: 4730145360952280715}
   m_Layer: 0
   m_Name: Pezdos
   m_TagString: Untagged
@@ -29,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 2958351449887586238}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalPosition: {x: 0.3, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7753457212637039025}
@@ -78,9 +79,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6896582, g: 0.7554008, b: 0.7735849, a: 1}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 8047436584946046242, guid: 2094a449ad1097c4d8cd16d6e65f0a6d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -104,6 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 3
   tiempoEspera: 1
+  timerVida: 7
 --- !u!61 &8099800812825420924
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -138,17 +140,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.13980246, y: -0.038740158}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.28, y: 0.64}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0235815, y: 0.41720772}
   m_EdgeRadius: 0
 --- !u!50 &429639674253015193
 Rigidbody2D:
@@ -177,6 +179,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &4730145360952280715
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958351449887586238}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3bf243349e6694a47b692489f824942f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4688034149771255471
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +247,7 @@ GameObject:
   - component: {fileID: 3090408608334796748}
   - component: {fileID: 2444571547667439018}
   - component: {fileID: 6259878560476104642}
+  - component: {fileID: 9110490192818898718}
   m_Layer: 0
   m_Name: Pezuno
   m_TagString: Untagged
@@ -240,7 +265,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.15, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7753457212637039025}
@@ -288,9 +313,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.53640085, g: 0.7232454, b: 0.7735849, a: 1}
+  m_SortingOrder: 4
+  m_Sprite: {fileID: -6736910440738650730, guid: 2094a449ad1097c4d8cd16d6e65f0a6d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -314,6 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidad: 3
   tiempoEspera: 1
+  timerVida: 7
 --- !u!61 &2444571547667439018
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -348,17 +374,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.14148808, y: 0.040424824}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.28, y: 0.64}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.0134754, y: 0.4138403}
   m_EdgeRadius: 0
 --- !u!50 &6259878560476104642
 Rigidbody2D:
@@ -387,3 +413,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &9110490192818898718
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218640158158768566}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9c3c454c0df0d4845bb98ed1c68f038e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

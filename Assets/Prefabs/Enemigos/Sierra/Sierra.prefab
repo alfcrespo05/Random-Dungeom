@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 3156200879930648622}
   - component: {fileID: 2369483468271521637}
   - component: {fileID: 5219002586682820040}
+  - component: {fileID: 5963133028181969472}
   m_Layer: 7
   m_Name: Sierra
   m_TagString: Untagged
@@ -111,8 +112,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Sprite: {fileID: 5410708585345483908, guid: 64d8b7865ff566944a183654b1b4f7c2, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -140,13 +141,14 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  colorHielo: {r: 0.5, g: 0.8, b: 1, a: 1}
-  colorNormal: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  sierraHielo: {fileID: 21300000, guid: a6b9cbd004aad76438fa657c5e1c9bbc, type: 3}
+  Sierra: {fileID: 5410708585345483908, guid: 64d8b7865ff566944a183654b1b4f7c2, type: 3}
   materialNormal: {fileID: 6200000, guid: dbe1f12bcb9ff1746a5e0622de948ca3, type: 2}
   materialHielo: {fileID: 6200000, guid: 84fea4a734f7fe14b885bf70f2063ffe, type: 2}
   patrullando: 0
   velocidadPatrulla: 1
   distanciaBloque: 1
+  sierraQuieta: {fileID: 21300000, guid: 3d85502938d49804f923e968ccba5c3d, type: 3}
   empuje: 5
   radioEmpuje: 0.4
 --- !u!58 &2369483468271521637
@@ -212,3 +214,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &5963133028181969472
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551589020618167254}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 82c75f0fe6c1324429680650ac36ff47, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

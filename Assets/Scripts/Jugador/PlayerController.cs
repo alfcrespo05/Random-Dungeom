@@ -37,36 +37,39 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         bool isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
-
+      
         // Solo resetea cuando acaba de aterrizar
         if (isGrounded && !estabaEnSuelo)
             saltosRestantes = dobleSalto ? 2 : 1;
         estabaEnSuelo = isGrounded;
-
-        anim.SetBool("Saltar", !isGrounded);
-
+        if(!isGrounded && dobleSalto == false) saltosRestantes -= 1;
         if (Time.timeScale == 1)
         {
             if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)
             {
+                anim.SetTrigger("Saltar"); // trigger en vez de bool
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 saltosRestantes--;
-                anim.SetTrigger("Saltar"); // trigger en vez de bool
                 AudioManager.Instance.PlaySound(AudioManager.Instance.Salto);
             }
         }
         else return;
-        
+        if (isGrounded)
+        {
+            anim.SetTrigger("Idle");
+        }
         Movimiento();
     }
 
     void Movimiento()
     {
+        bool isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
         if (Time.timeScale == 1)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
 
-            anim.SetBool("Caminar", horizontal != 0);
+            if(isGrounded) anim.SetBool("Caminar", horizontal != 0);
+
 
             // Cambia la orientación según la dirección
             if (horizontal > 0)

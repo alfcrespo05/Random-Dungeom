@@ -57,7 +57,7 @@ public class MazoManager : MonoBehaviour
 
             SpriteRenderer sr = carta.GetComponent<SpriteRenderer>();
             if (sr != null)
-                sr.sortingOrder = cartasAleatorias.Count - i;
+                sr.sortingOrder = (cartasAleatorias.Count - i);
 
             if (i != 0)
                 carta.GetComponent<Collider2D>().enabled = false;

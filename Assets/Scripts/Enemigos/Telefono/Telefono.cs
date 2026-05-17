@@ -8,6 +8,7 @@ public class Telefono : MonoBehaviour
     [SerializeField] private float alturaSueloPajaro = 1.5f;
     [SerializeField] private GameObject prefabPajaro;
     [SerializeField] private PhysicsMaterial2D materialNormal;
+    private AudioSource audioTelefono;
 
     private bool llamadaRealizada = false;
     private Collider2D col;
@@ -18,11 +19,19 @@ public class Telefono : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Kinematic;
         col = GetComponent<Collider2D>();
+        audioTelefono = gameObject.AddComponent<AudioSource>();
+        audioTelefono.clip = AudioManager.Instance.Telefono;
+        audioTelefono.loop = true;
+        audioTelefono.volume = 0.1f;
+        if (Time.timeScale == 1) audioTelefono.Play();
+
     }
 
     void Update()
     {
         ComprobarHitLateral();
+        if (Time.timeScale == 1 && !audioTelefono.isPlaying) audioTelefono.Play();
+        if (Time.timeScale == 0 && audioTelefono.isPlaying) audioTelefono.Pause();
     }
 
     void ComprobarHitLateral()
@@ -72,6 +81,7 @@ public class Telefono : MonoBehaviour
 
     public void Muerte()
     {
+        AudioManager.Instance.musicaSource.Stop();
         Destroy(gameObject);
     }
 }

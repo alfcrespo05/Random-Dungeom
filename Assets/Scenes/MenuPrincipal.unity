@@ -5004,6 +5004,10 @@ MonoBehaviour:
   enemigoDisparo: {fileID: 8300000, guid: dd1c4c2f36c43db4fa339f15a80ea593, type: 3}
   balaColision: {fileID: 8300000, guid: b1c242dbf9312aa4199f3fb0d1c2ff6e, type: 3}
   Salto: {fileID: 8300000, guid: 2e0c9bd0c2d1d8a4e99eff5bfd9c5a24, type: 3}
+  Madera: {fileID: 8300000, guid: a515e3cd5929d474e94a3e0446303a10, type: 3}
+  Lava: {fileID: 8300000, guid: 10d58be0f546b4b4fb68537e68503bcf, type: 3}
+  Fuego: {fileID: 8300000, guid: dfdbec9378727b8488eee5919fe3066f, type: 3}
+  Telefono: {fileID: 8300000, guid: 74d41de726cf60048baffa18d5452377, type: 3}
   musicaMenu: {fileID: 8300000, guid: 18307bcc8ba71f04aa1e4cad118c448b, type: 3}
   musicaRandomDungeom: {fileID: 8300000, guid: 16eac43ed5622d540b9926d4dcf1e078, type: 3}
   musicaVictoria: {fileID: 8300000, guid: 103517acca325854f9cacc6a49b48f21, type: 3}

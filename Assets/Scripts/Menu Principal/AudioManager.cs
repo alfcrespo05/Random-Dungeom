@@ -18,12 +18,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip enemigoDisparo;
     public AudioClip balaColision;
     public AudioClip Salto;
+    public AudioClip Madera;
+    public AudioClip Lava;
+    public AudioClip Fuego;
+    public AudioClip Telefono;
+
 
     [Header("Musica")]
     public AudioClip musicaMenu;
     public AudioClip musicaRandomDungeom;
     public AudioClip musicaVictoria;
     public AudioClip musicaDerrota;
+    
 
     void Awake()
     {

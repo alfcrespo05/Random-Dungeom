@@ -43,6 +43,8 @@ public class SueloController : MonoBehaviour
     [SerializeField] private float alturaSueloLlama = 1.5f;
     [SerializeField] private GameObject prefabTelefono;
     [SerializeField] private float alturaSueloTelefono = 1.5f;
+    private AudioSource audioFuego;
+    private AudioSource audioMadera;
 
     [Header("Banco")]
     [SerializeField] private GameObject prefabPeces;
@@ -71,10 +73,20 @@ public class SueloController : MonoBehaviour
         if (esTierra) sr.sprite = spriteTierra;
         if (esRoca) sr.sprite = spriteRoca;
         if (esMadera) sr.sprite = spriteMadera;
+        audioFuego = gameObject.AddComponent<AudioSource>();
+        audioFuego.clip = AudioManager.Instance.Fuego;
+        audioFuego.loop = true;
+        audioFuego.volume = 0.3f;
+        audioMadera = gameObject.AddComponent<AudioSource>();
+        audioMadera.clip = AudioManager.Instance.Madera;
+        audioMadera.loop = false;
+        audioMadera.volume = 0.3f;
     }
 
     void Update()
     {
+        if (audioFuego != null)
+            audioFuego.volume = AudioManager.Instance.sonidoSource.volume;
         // PINCHOS
         if (esPiedra)
         {
@@ -97,6 +109,12 @@ public class SueloController : MonoBehaviour
                     if (sierra != null) sierra.Muerte();
                     LlamaAnimal llama = objetivo.GetComponent<LlamaAnimal>();
                     if (llama != null) llama.Muerte();
+                    Telefono te = objetivo.GetComponent<Telefono>();
+                    if (te != null) te.Muerte();
+                    BancoEdificio be = objetivo.GetComponent<BancoEdificio>();
+                    if (be != null) be.Muerte();
+                    BancoSilla bs = objetivo.GetComponent<BancoSilla>();
+                    if (bs != null) bs.Muerte();
                 }
 
                 timerPinchos += Time.deltaTime;
@@ -127,7 +145,8 @@ public class SueloController : MonoBehaviour
         if (esFuego)
         {
             Collider2D objetivoFuego = Physics2D.OverlapBox(fuegoCheck.position, fuegoCheckSize, 0f, objetivoLayerFuego);
-
+            if (Time.timeScale == 1 && !audioFuego.isPlaying) audioFuego.Play();
+            if (Time.timeScale == 0 && audioFuego.isPlaying) audioFuego.Pause();
             if (fuegoActivos)
             {
                 if (objetivoFuego != null)
@@ -143,25 +162,33 @@ public class SueloController : MonoBehaviour
                     if (slime != null) slime.Muerte();
                     SierraController sierra = objetivoFuego.GetComponent<SierraController>();
                     if (sierra != null) sierra.Muerte();
+                    BancoEdificio be = objetivoFuego.GetComponent<BancoEdificio>();
+                    if (be != null) be.Muerte();
+                    BancoSilla bs = objetivoFuego.GetComponent<BancoSilla>();
+                    if (bs != null) bs.Muerte();
                 }
             }
 
             if (fragilFuego)
             {
-                // Madera cuenta siempre, otros solo si hay alguien encima
                 if (esMadera || objetivoFuego != null)
                     contandoFragilFuego = true;
 
                 if (contandoFragilFuego)
                 {
-                    timerFragilFuego += Time.deltaTime;
+                    timerFragilFuego += Time.deltaTime; 
+
                     if (timerFragilFuego >= tiempoFragilFuego)
+                    {
+                        AudioSource.PlayClipAtPoint(AudioManager.Instance.Madera, transform.position,
+                            AudioManager.Instance.sonidoSource.volume);
                         Destroy(gameObject);
+                    }
                 }
             }
         }
     }
-
+   
     void OnDrawGizmos()
     {
         if (pinchosCheck != null)
@@ -208,7 +235,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(3, 4);
+        int prob = UnityEngine.Random.Range(1, 2);
         switch (prob)
         {
             case 1:
@@ -219,6 +246,7 @@ public class SueloController : MonoBehaviour
                 if (esMadera) fragilFuego = true;
                 if (spriteFuego != null)
                     spriteFuego.SetActive(true);
+                if (Time.timeScale == 1) audioFuego.Play();
                 break;
                
             case 2:
@@ -272,7 +300,7 @@ public class SueloController : MonoBehaviour
     }
     public void Banco()
     {
-        int prob = UnityEngine.Random.Range(1, 2);
+        int prob = UnityEngine.Random.Range(2, 3);
         switch (prob)
         {
             case 1:

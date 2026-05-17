@@ -9,7 +9,6 @@ public class SueloController : MonoBehaviour
     [SerializeField] private Sprite spriteTierra;
     [SerializeField] private Sprite spriteRoca;
     [SerializeField] private Sprite spriteMadera;
-    private bool esHielo = false;
     [SerializeField] private Color colorHielo = new Color(0.5f, 0.8f, 1f);
     [SerializeField] private Color colorPiedra = new Color(0.31f, 0.27f, 0.25f);
     [SerializeField] private Color colorFuego = new Color(1f, 0.14f, 0f);
@@ -18,6 +17,7 @@ public class SueloController : MonoBehaviour
     public bool esTierra = false;
     public bool esRoca = false;
     public bool esMadera = false;
+    private bool esHielo = false;
 
     [Header("Pinchos")]
     [SerializeField] private GameObject spritePinchos; // hijo desactivado
@@ -219,9 +219,10 @@ public class SueloController : MonoBehaviour
 
     public void CambiarAHielo()
     {
+        esHielo = true;
         col.sharedMaterial = materialHielo;
         sr.color = colorHielo;
-        esHielo = true;
+      
     }
 
     public void CambiarAPiedra()
@@ -381,14 +382,18 @@ public class SueloController : MonoBehaviour
     }
     public void NoSubrayar()
     {
-        col.sharedMaterial = materialNormal;
-        if (esPiedra == true) sr.color = colorPiedra;
-        if (esHielo == true) sr.color = colorHielo;
-        if(esFuego == true) sr.color = colorFuego;
-        else sr.color = Color.white;
-        if (esTierra == true) sr.sprite = spriteTierra;
-        if (esRoca == true) sr.sprite = spriteRoca;
-        if (esMadera == true) sr.sprite = spriteMadera;
+        if (!esPiedra && !esHielo && !esFuego)
+        {
+            col.sharedMaterial = materialNormal;
+            sr.color = Color.white;
+        }
+        else if (esPiedra) sr.color = colorPiedra;
+        else if (esHielo) sr.color = colorHielo;
+        else if (esFuego) sr.color = colorFuego;
+
+        if (esTierra) sr.sprite = spriteTierra;
+        if (esRoca) sr.sprite = spriteRoca;
+        if (esMadera) sr.sprite = spriteMadera;
     }
 
 }

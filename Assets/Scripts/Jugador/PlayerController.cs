@@ -59,9 +59,12 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger("Idle");
         }
+      
+    }
+    public void FixedUpdate()
+    {
         Movimiento();
     }
-
     void Movimiento()
     {
         bool isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);

@@ -108,7 +108,7 @@ MonoBehaviour:
   spriteTierra: {fileID: 21300000, guid: ce28fd943a3591041a524cc6bbd2dcb3, type: 3}
   spriteRoca: {fileID: 21300000, guid: 48dbeb88e5276284bb2c1d9351138f9e, type: 3}
   spriteMadera: {fileID: 21300000, guid: c192cc563e9e71b49bc979963ab3792d, type: 3}
-  colorHielo: {r: 0.5, g: 0.8, b: 1, a: 1}
+  colorHielo: {r: 0.57254905, g: 0.9019608, b: 1, a: 1}
   colorPiedra: {r: 1, g: 0.7019608, b: 0.49803922, a: 1}
   colorFuego: {r: 1, g: 0.25845027, b: 0, a: 1}
   esTierra: 0

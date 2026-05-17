@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
             saltosRestantes = dobleSalto ? 2 : 1;
         estabaEnSuelo = isGrounded;
         if(!isGrounded && dobleSalto == false) saltosRestantes -= 1;
+        if (saltosRestantes < 0) saltosRestantes = 0;
         if (Time.timeScale == 1)
         {
             if (Input.GetKeyDown(KeyCode.Space) && saltosRestantes > 0)

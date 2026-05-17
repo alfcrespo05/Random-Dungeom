@@ -85,7 +85,7 @@ public class Aire : MonoBehaviour
                 Papelera papelerac = papelera.GetComponent<Papelera>();
                 if (papelera != null)
                 {
-                    GameManager.Instance.estamina += (costeEstamina / 2);
+                    GameManager.Instance.estamina -= (costeEstamina / 2);
                     FindFirstObjectByType<MazoManager>().CartaUsada();
                     Destroy(gameObject);
                     return;

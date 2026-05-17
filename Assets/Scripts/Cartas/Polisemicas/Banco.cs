@@ -67,7 +67,7 @@ public class Banco : MonoBehaviour
             Papelera papelerac = papelera.GetComponent<Papelera>();
             if (papelera != null && !esPrimera)
             {
-                GameManager.Instance.estamina += (costeEstamina / 2);
+                GameManager.Instance.estamina -= (costeEstamina / 2);
                 FindFirstObjectByType<MazoManager>().CartaUsada();
                 Destroy(gameObject);
                 return;

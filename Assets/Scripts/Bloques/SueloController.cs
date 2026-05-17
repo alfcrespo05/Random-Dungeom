@@ -9,6 +9,7 @@ public class SueloController : MonoBehaviour
     [SerializeField] private Sprite spriteTierra;
     [SerializeField] private Sprite spriteRoca;
     [SerializeField] private Sprite spriteMadera;
+    private bool esHielo = false;
     [SerializeField] private Color colorHielo = new Color(0.5f, 0.8f, 1f);
     [SerializeField] private Color colorPiedra = new Color(0.31f, 0.27f, 0.25f);
     [SerializeField] private Color colorFuego = new Color(1f, 0.14f, 0f);
@@ -220,6 +221,7 @@ public class SueloController : MonoBehaviour
     {
         col.sharedMaterial = materialHielo;
         sr.color = colorHielo;
+        esHielo = true;
     }
 
     public void CambiarAPiedra()
@@ -235,7 +237,7 @@ public class SueloController : MonoBehaviour
     }
     public void Llama()
     {
-        int prob = UnityEngine.Random.Range(1, 2);
+        int prob = UnityEngine.Random.Range(1, 4);
         switch (prob)
         {
             case 1:
@@ -300,7 +302,7 @@ public class SueloController : MonoBehaviour
     }
     public void Banco()
     {
-        int prob = UnityEngine.Random.Range(2, 3);
+        int prob = UnityEngine.Random.Range(1, 4);
         switch (prob)
         {
             case 1:
@@ -380,7 +382,10 @@ public class SueloController : MonoBehaviour
     public void NoSubrayar()
     {
         col.sharedMaterial = materialNormal;
-        sr.color = Color.white;
+        if (esPiedra == true) sr.color = colorPiedra;
+        if (esHielo == true) sr.color = colorHielo;
+        if(esFuego == true) sr.color = colorFuego;
+        else sr.color = Color.white;
         if (esTierra == true) sr.sprite = spriteTierra;
         if (esRoca == true) sr.sprite = spriteRoca;
         if (esMadera == true) sr.sprite = spriteMadera;
